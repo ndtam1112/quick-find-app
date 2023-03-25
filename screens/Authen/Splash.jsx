@@ -1,6 +1,7 @@
 import { Flex, Text } from '@react-native-material/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, StyleSheet } from 'react-native'
+import ForeWord from './ForeWord'
 
 const styles = StyleSheet.create({
   container: {
@@ -19,9 +20,15 @@ const styles = StyleSheet.create({
 })
 
 const splash = () => {
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     return <ForeWord />
+  //   }, 1000)
+  // }, [])
+
   return (
     <Flex style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={styles.img} />
+      <Image source={require('../../assets/splash.png')} style={styles.img} />
     </Flex>
   )
 }

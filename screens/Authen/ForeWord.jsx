@@ -2,6 +2,7 @@ import { Button, Flex, Text } from '@react-native-material/core'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Image } from 'react-native'
+import { globalStyle } from '../../styles/global'
 
 const styles = StyleSheet.create({
   container: {
@@ -45,17 +46,24 @@ const styles = StyleSheet.create({
   },
 })
 
-const ForeWord = () => {
+const ForeWord = ({ navigation }) => {
+  const pressHander = () => {
+    navigation.navigate('SignUp')
+  }
   return (
     <Flex style={styles.container}>
-      <Image source={require('../assets/fore-1.png')} style={styles.img} />
+      <Image source={require('../../assets/fore-1.png')} style={styles.img} />
       <Flex style={styles.container_2}>
         <Text style={styles.h3}>QuickFind gửi lời chào đến bạn</Text>
         <Text style={styles.text}>
           QuickFind là ứng dụng tra cứu bệnh viện chất lượng và cung cấp dịch vụ
           cứu thương xung quanh bạn
         </Text>
-        <Button style={styles.btn} title="Tiếp tục"></Button>
+        <Button
+          style={styles.btn}
+          onPress={pressHander}
+          title="Tiếp tục"
+        ></Button>
       </Flex>
     </Flex>
   )

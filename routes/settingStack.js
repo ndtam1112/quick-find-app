@@ -7,42 +7,25 @@ import SignUp_2 from '../screens/Authen/SignUp_2'
 import ShareLocation from '../screens/Authen/ShareLocation'
 import Login from '../screens/Authen/Login'
 import SignUp_3 from '../screens/Authen/SignUp_3'
+import Setting from '../screens/Settings/Setting'
+import Info from '../screens/Settings/Info'
 
 const screens = {
   // Splash: {
   //   screen: Splash,
   // },
-  ForeWord: {
-    screen: ForeWord,
+  Setting: {
+    screen: Setting,
     navigationOptions: {
       headerShown: false,
     },
   },
-  SignUp: {
-    screen: SignUp,
+  Info: {
+    screen: Info,
     navigationOptions: {
       headerShown: false,
     },
   },
-  SignUp2: {
-    screen: SignUp_2,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  ShareLocation: {
-    screen: ShareLocation,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  SignUp3: {
-    screen: SignUp_3,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-
   Login: {
     screen: Login,
     navigationOptions: {
