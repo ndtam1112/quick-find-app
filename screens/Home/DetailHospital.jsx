@@ -1,6 +1,6 @@
 import { Button, Flex, Text } from '@react-native-material/core'
 import React from 'react'
-import { Image, ScrollView, StyleSheet } from 'react-native'
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
@@ -32,9 +32,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    shadowColor: 'rgba(0,0,0,0.8)',
-    shadowOffset: 0.5,
-    shadowOpacity: 0.7,
+    shadowColor: 'rgba(0,0,0,0.3)',
   },
   sub_info: {
     display: 'flex',
@@ -73,7 +71,13 @@ const styles = StyleSheet.create({
     left: 20,
   },
 })
-const DetailHospital = () => {
+const DetailHospital = ({ navigation }) => {
+  const pressSetFrom = () => {
+    navigation.navigate('SetFrom')
+  }
+  const pressHanderBack = () => {
+    navigation.goBack()
+  }
   return (
     <ScrollView style={{ width: '100%' }}>
       <Flex style={styles.container}>
@@ -99,8 +103,17 @@ const DetailHospital = () => {
           <Text style={styles.text}>Hotline</Text>
           <Text style={styles.text}>Cấp cứu</Text>
         </Flex>
-        <Button style={styles.btn} title="Di chuyển đến đây" />
-        <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        <Button
+          onPress={pressSetFrom}
+          style={styles.btn}
+          title="Di chuyển đến đây"
+        />
+        <TouchableOpacity
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          onPress={pressHanderBack}
+        >
+          <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        </TouchableOpacity>
       </Flex>
     </ScrollView>
   )

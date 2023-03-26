@@ -1,6 +1,12 @@
 import { Flex, Text, TextInput } from '@react-native-material/core'
 import React from 'react'
-import { Image, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import {
+  Image,
+  Keyboard,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { EvilIcons } from '@expo/vector-icons'
 import { globalStyle } from '../../styles/global'
@@ -22,6 +28,7 @@ const styles = StyleSheet.create({
   },
   main_header: {
     display: 'flex',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -35,7 +42,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   text: {
-    width: '33.33%',
     color: '#fff',
   },
   txinput: {
@@ -69,7 +75,14 @@ const styles = StyleSheet.create({
   },
 })
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  const pressBookCar = () => {
+    navigation.navigate('SetTo')
+  }
+  const pressListFav = () => {
+    navigation.navigate('ListFav')
+  }
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -82,10 +95,10 @@ const Home = () => {
             <Text style={styles.text}>Hi, You</Text>
             <Flex
               style={{
-                width: '33.33%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                marginLeft: -36,
               }}
             >
               <Image
@@ -93,12 +106,9 @@ const Home = () => {
                 style={styles.img}
               />
             </Flex>
-            <MaterialIcons
-              name="favorite"
-              size={24}
-              style={{ width: '33.33%', textAlign: 'right' }}
-              color="black"
-            />
+            <TouchableOpacity onPress={pressListFav}>
+              <MaterialIcons name="favorite" size={24} color="black" />
+            </TouchableOpacity>
           </Flex>
           <TextInput
             cursorColor={'#485563'}
@@ -112,15 +122,17 @@ const Home = () => {
         </Flex>
         <Flex style={styles.content}>
           <Text style={styles.h2}>Dịch vụ</Text>
-          <Flex>
-            <Flex style={styles.btnimg}>
-              <Image
-                source={require('../../assets/ambulance.png')}
-                style={styles.imgbtn}
-              />
+          <TouchableOpacity onPress={pressBookCar}>
+            <Flex>
+              <Flex style={styles.btnimg}>
+                <Image
+                  source={require('../../assets/ambulance.png')}
+                  style={styles.imgbtn}
+                />
+              </Flex>
+              <Text style={{ marginTop: 4 }}>Đặt xe</Text>
             </Flex>
-            <Text style={{ marginTop: 4 }}>Đặt xe</Text>
-          </Flex>
+          </TouchableOpacity>
         </Flex>
       </Flex>
     </TouchableWithoutFeedback>

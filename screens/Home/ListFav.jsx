@@ -5,13 +5,20 @@ import {
   Modal,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 import { Flex, Text } from '@react-native-material/core'
 import { AntDesign } from '@expo/vector-icons'
 
-const ListFav = () => {
+const ListFav = ({ navigation }) => {
+  const pressDetail = () => {
+    navigation.navigate('DetailHospital')
+  }
+  const pressHanderBack = () => {
+    navigation.goBack()
+  }
   const listfavs = [
     {
       id: 1,
@@ -165,67 +172,71 @@ const ListFav = () => {
   })
   const [modalVisible, setModalVisible] = useState(false)
   const oneFav = ({ item }) => (
-    <Flex style={styles.item}>
-      <View style={styles.thumbContainer}>
-        <Image style={styles.thumb} source={item.thumb} />
-      </View>
-      <Flex>
-        <Text style={{ fontWeight: '600', lineHeight: 32 }}>{item.name}</Text>
-        <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-          {item.address}
-        </Text>
-      </Flex>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.')
-          setModalVisible(!modalVisible)
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Bạn muốn xóa bệnh viện khỏi danh sách?
-            </Text>
-            <Flex
-              style={{
-                width: '50%',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Đồng ý</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Hủy</Text>
-              </Pressable>
-            </Flex>
-          </View>
+    <TouchableOpacity onPress={pressDetail}>
+      <Flex style={styles.item}>
+        <View style={styles.thumbContainer}>
+          <Image style={styles.thumb} source={item.thumb} />
         </View>
-      </Modal>
-      <AntDesign
-        onPress={() => setModalVisible(!modalVisible)}
-        name="delete"
-        size={18}
-        color="black"
-      />
-    </Flex>
+        <Flex>
+          <Text style={{ fontWeight: '600', lineHeight: 32 }}>{item.name}</Text>
+          <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
+            {item.address}
+          </Text>
+        </Flex>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.')
+            setModalVisible(!modalVisible)
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                Bạn muốn xóa bệnh viện khỏi danh sách?
+              </Text>
+              <Flex
+                style={{
+                  width: '50%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Đồng ý</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Hủy</Text>
+                </Pressable>
+              </Flex>
+            </View>
+          </View>
+        </Modal>
+        <AntDesign
+          onPress={() => setModalVisible(!modalVisible)}
+          name="delete"
+          size={18}
+          color="black"
+        />
+      </Flex>
+    </TouchableOpacity>
   )
 
   return (
     <Flex style={styles.container}>
       <Flex style={styles.header}>
-        <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        <TouchableOpacity onPress={pressHanderBack}>
+          <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        </TouchableOpacity>
         <Text style={styles.h2}>Danh sách bệnh viện đã lưu</Text>
       </Flex>
       <FlatList

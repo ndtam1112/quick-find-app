@@ -13,7 +13,7 @@ import { Entypo } from '@expo/vector-icons'
 import { SimpleLineIcons } from '@expo/vector-icons'
 import { globalStyle } from '../../styles/global'
 
-const Info = () => {
+const Info = ({ navigation }) => {
   const styles = StyleSheet.create({
     container: {
       display: 'flex',
@@ -95,7 +95,7 @@ const Info = () => {
   const [address, setAddress] = useState(
     'Số 5, phố Đại Linh, phường Trung Văn, quận Nam Từ Liêm, Hà Nội'
   )
-  const pressHander = (navigation) => {
+  const pressHander = () => {
     navigation.navigate('Login')
   }
   const pressHanderBack = () => {

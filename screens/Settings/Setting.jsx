@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
-import { Image, ScrollView, StyleSheet, View } from 'react-native'
-import { Flex, Text } from '@react-native-material/core'
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { Button, Flex, Text } from '@react-native-material/core'
 import { AntDesign } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { SimpleLineIcons } from '@expo/vector-icons'
 
-const Setting = () => {
+const Setting = ({ navigation }) => {
   const styles = StyleSheet.create({
     container: {
       display: 'flex',
@@ -101,8 +107,11 @@ const Setting = () => {
       marginBottom: 16,
     },
   })
-  const pressHander = (navigation) => {
+  const pressHander = () => {
     navigation.navigate('Info')
+  }
+  const pressHanderLogin = () => {
+    navigation.navigate('Login')
   }
   const pressHanderBack = () => {
     navigation.goBack()
@@ -118,40 +127,29 @@ const Setting = () => {
       </Flex>
       <ScrollView style={styles.flist}>
         <Text style={styles.h3}>Quản lý tài khoản</Text>
-        <Flex style={styles.item}>
-          <AntDesign name="user" size={24} color="black" />
-          <Text style={{ fontWeight: '600', lineHeight: 32, marginLeft: -90 }}>
-            Thông tin cá nhân
-          </Text>
-          <Entypo
-            name="chevron-thin-right"
-            onPress={pressHander}
-            size={18}
-            color="black"
-          />
-        </Flex>
-        {/* <Flex style={styles.item}>
-          <SimpleLineIcons name="location-pin" size={24} color="black" />
-          <Text style={{ fontWeight: '600', lineHeight: 32, marginLeft: -170 }}>
-            Địa chỉ
-          </Text>
-          <Entypo name="chevron-thin-right" size={18} color="black" />
-        </Flex> */}
+        <TouchableOpacity onPress={pressHander}>
+          <Flex style={styles.item}>
+            <AntDesign name="user" size={24} color="black" />
+            <Text
+              style={{ fontWeight: '600', lineHeight: 32, marginLeft: -90 }}
+            >
+              Thông tin cá nhân
+            </Text>
+            <Entypo name="chevron-thin-right" size={18} color="black" />
+          </Flex>
+        </TouchableOpacity>
       </ScrollView>
-      <Flex style={styles.signout}>
-        <AntDesign
-          name="logout"
-          size={24}
-          color="black"
-          style={{ marginRight: 16 }}
-        />
-        <Text
-          onPress={pressHander}
-          style={{ fontWeight: '600', lineHeight: 32 }}
-        >
-          Đăng xuất
-        </Text>
-      </Flex>
+      <TouchableOpacity onPress={pressHanderLogin}>
+        <Flex style={styles.signout}>
+          <AntDesign
+            name="logout"
+            size={24}
+            color="black"
+            style={{ marginRight: 16 }}
+          />
+          <Text style={{ fontWeight: '600', lineHeight: 32 }}>Đăng xuất</Text>
+        </Flex>
+      </TouchableOpacity>
     </Flex>
   )
 }
