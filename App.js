@@ -13,6 +13,7 @@ import InfoOrder from './screens/Home/InfoOrder'
 import SearchDriver from './screens/Home/SearchDriver'
 import DriverComing from './screens/Home/DriverComing'
 import Complete from './screens/Home/Complete'
+import SetCenter from './screens/Home/SetCenter'
 
 export default function App() {
   return (

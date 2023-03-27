@@ -200,7 +200,7 @@ const SetTo = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Tên bệnh viện
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                       Địa chỉ chính xác
@@ -222,7 +222,7 @@ const SetTo = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Tên bệnh viện
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                       Địa chỉ chính xác
@@ -244,7 +244,7 @@ const SetTo = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Tên bệnh viện
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                       Địa chỉ chính xác
@@ -289,7 +289,7 @@ const SetTo = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Địa chỉ
+                        Tên bệnh viện
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                         Địa chỉ chính xác

@@ -2,6 +2,7 @@ import {
   Entypo,
   EvilIcons,
   FontAwesome5,
+  MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons'
 import { Button, Flex, Text, TextInput } from '@react-native-material/core'
@@ -182,17 +183,19 @@ const styles = StyleSheet.create({
   },
 })
 
-const SetFrom = ({ navigation }) => {
+const SetCenter = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const pressSelectFrom = () => {
-    navigation.navigate('SelectFrom')
+  const pressSelectCenter = () => {
+    navigation.navigate('SelectCenter')
   }
-
-  const pressSetCenter = () => {
-    navigation.navigate('SetCenter')
+  const pressListFav = () => {
+    navigation.navigate('ListFav')
   }
-  const pressSetCenter2 = () => {
-    navigation.navigate('SetCenter')
+  const pressInforOrder = () => {
+    navigation.navigate('InfoOrder')
+  }
+  const pressInforOrder2 = () => {
+    navigation.navigate('InfoOrder')
     setModalVisible(!modalVisible)
   }
   const pressHanderBack = () => {
@@ -207,7 +210,7 @@ const SetFrom = ({ navigation }) => {
       <ScrollView>
         <Flex style={styles.container}>
           <Flex style={styles.header}>
-            <Text style={styles.h2}>Chọn điểm đón</Text>
+            <Text style={styles.h2}>Chọn trung tâm</Text>
             <Text style={styles.text}>
               Sức khỏe của bạn là sứ mệnh của chúng tôi!
             </Text>
@@ -223,17 +226,21 @@ const SetFrom = ({ navigation }) => {
                 source={require('../../assets/adaptive-icon.png')}
                 style={styles.img}
               />
-              <TouchableOpacity onPress={pressSelectFrom}>
+              <TouchableOpacity onPress={pressSelectCenter}>
                 <Ionicons name="ios-map-outline" size={24} color="white" />
               </TouchableOpacity>
             </Flex>
             <TextInput
               cursorColor={'#485563'}
               selectionColor={'#29323C'}
-              placeholder="Điểm đón?"
+              placeholder="Tìm trung tâm vận chuyển"
               style={styles.txinput}
               leading={(props) => (
-                <FontAwesome5 name="map-pin" size={24} color="black" />
+                <MaterialCommunityIcons
+                  name="ambulance"
+                  size={24}
+                  color="black"
+                />
               )}
             />
           </Flex>
@@ -241,9 +248,9 @@ const SetFrom = ({ navigation }) => {
             <Text
               style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}
             >
-              Địa điểm gần đây
+              Trung tâm gần đây
             </Text>
-            <TouchableOpacity onPress={pressSetCenter}>
+            <TouchableOpacity onPress={pressInforOrder}>
               <Flex style={styles.from}>
                 <Flex
                   style={{
@@ -255,7 +262,7 @@ const SetFrom = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Tên trung tâm
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                       Địa chỉ chính xác
@@ -265,7 +272,7 @@ const SetFrom = ({ navigation }) => {
                 <Entypo name="chevron-thin-right" size={18} color="black" />
               </Flex>
             </TouchableOpacity>
-            <TouchableOpacity onPress={pressSetCenter}>
+            <TouchableOpacity onPress={pressInforOrder}>
               <Flex style={styles.from}>
                 <Flex
                   style={{
@@ -277,7 +284,7 @@ const SetFrom = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Tên trung tâm
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                       Địa chỉ chính xác
@@ -287,7 +294,7 @@ const SetFrom = ({ navigation }) => {
                 <Entypo name="chevron-thin-right" size={18} color="black" />
               </Flex>
             </TouchableOpacity>
-            <TouchableOpacity onPress={pressSetCenter}>
+            <TouchableOpacity onPress={pressInforOrder}>
               <Flex style={styles.from}>
                 <Flex
                   style={{
@@ -299,7 +306,7 @@ const SetFrom = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Tên trung tâm
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                       Địa chỉ chính xác
@@ -322,7 +329,7 @@ const SetFrom = ({ navigation }) => {
                 }}
               >
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                  Điểm đón đã lưu
+                  Trung tâm đã lưu
                 </Text>
                 <Entypo name="chevron-thin-right" size={18} color="black" />
               </Flex>
@@ -340,7 +347,7 @@ const SetFrom = ({ navigation }) => {
                 <View style={styles.modalView}>
                   <TouchableOpacity
                     style={{ width: '100%' }}
-                    onPress={pressSetCenter2}
+                    onPress={pressInforOrder2}
                   >
                     <Flex style={styles.from2}>
                       <Flex
@@ -350,10 +357,14 @@ const SetFrom = ({ navigation }) => {
                           alignItems: 'center',
                         }}
                       >
-                        <FontAwesome5 name="map-pin" size={24} color="black" />
+                        <MaterialCommunityIcons
+                          name="ambulance"
+                          size={24}
+                          color="black"
+                        />
                         <Flex style={{ marginLeft: 16 }}>
                           <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                            Địa chỉ
+                            Tên trung tâm
                           </Text>
                           <Text
                             style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
@@ -367,7 +378,7 @@ const SetFrom = ({ navigation }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{ width: '100%' }}
-                    onPress={pressSetCenter2}
+                    onPress={pressInforOrder2}
                   >
                     <Flex style={styles.from2}>
                       <Flex
@@ -377,10 +388,14 @@ const SetFrom = ({ navigation }) => {
                           alignItems: 'center',
                         }}
                       >
-                        <FontAwesome5 name="map-pin" size={24} color="black" />
+                        <MaterialCommunityIcons
+                          name="ambulance"
+                          size={24}
+                          color="black"
+                        />
                         <Flex style={{ marginLeft: 16 }}>
                           <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                            Địa chỉ
+                            Tên trung tâm
                           </Text>
                           <Text
                             style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
@@ -394,7 +409,7 @@ const SetFrom = ({ navigation }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{ width: '100%' }}
-                    onPress={pressSetCenter2}
+                    onPress={pressInforOrder2}
                   >
                     <Flex style={styles.from2}>
                       <Flex
@@ -404,10 +419,14 @@ const SetFrom = ({ navigation }) => {
                           alignItems: 'center',
                         }}
                       >
-                        <FontAwesome5 name="map-pin" size={24} color="black" />
+                        <MaterialCommunityIcons
+                          name="ambulance"
+                          size={24}
+                          color="black"
+                        />
                         <Flex style={{ marginLeft: 16 }}>
                           <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                            Địa chỉ
+                            Tên trung tâm
                           </Text>
                           <Text
                             style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
@@ -430,7 +449,7 @@ const SetFrom = ({ navigation }) => {
               </View>
             </Modal>
             <Flex style={{ marginLeft: 8, marginRight: 8 }}>
-              <TouchableOpacity onPress={pressSetCenter}>
+              <TouchableOpacity onPress={pressInforOrder}>
                 <Flex style={styles.from}>
                   <Flex
                     style={{
@@ -446,7 +465,7 @@ const SetFrom = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Địa chỉ
+                        Tên trung tâm
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                         Địa chỉ chính xác
@@ -459,9 +478,9 @@ const SetFrom = ({ navigation }) => {
             </Flex>
           </Flex>
           <Button
-            onPress={pressSetCenter}
+            onPress={pressInforOrder}
             style={styles.btn}
-            title="Chọn điểm đón này"
+            title="Chọn trung tâm này"
           />
         </Flex>
       </ScrollView>
@@ -469,4 +488,4 @@ const SetFrom = ({ navigation }) => {
   )
 }
 
-export default SetFrom
+export default SetCenter

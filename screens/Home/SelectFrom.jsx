@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
 })
 
 const SelectFrom = ({ navigation }) => {
-  const pressInforOrder = () => {
-    navigation.navigate('InfoOrder')
+  const pressSetCenter = () => {
+    navigation.navigate('SetCenter')
   }
   const pressHanderBack = () => {
     navigation.goBack()
@@ -123,7 +123,7 @@ const SelectFrom = ({ navigation }) => {
           variant="standard"
           placeholder="Ghi chú (nếu có)"
         />
-        <TouchableOpacity onPress={pressInforOrder}>
+        <TouchableOpacity onPress={pressSetCenter}>
           <Flex style={styles.btn}>
             <Entypo name="direction" size={24} color="black" />
           </Flex>

@@ -2,6 +2,7 @@ import {
   Entypo,
   FontAwesome5,
   Ionicons,
+  MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons'
 import { Button, Divider, Flex, Text } from '@react-native-material/core'
@@ -192,6 +193,9 @@ const InfoOrder = ({ navigation }) => {
   const pressSetTo = () => {
     navigation.navigate('SetTo')
   }
+  const pressSetCenter = () => {
+    navigation.navigate('SetCenter')
+  }
   const pressSearchDriver = () => {
     navigation.navigate('SearchDriver')
   }
@@ -258,6 +262,38 @@ const InfoOrder = ({ navigation }) => {
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
                         Địa chỉ
+                      </Text>
+                      <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
+                        Địa chỉ chính xác
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </TouchableOpacity>
+            </Flex>
+          </Flex>
+          <Flex style={styles.address}>
+            <Flex style={styles.form}>
+              <TouchableOpacity
+                style={{ width: '100%' }}
+                onPress={pressSetCenter}
+              >
+                <Flex style={styles.item}>
+                  <Flex
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="ambulance"
+                      size={24}
+                      color="black"
+                    />
+                    <Flex style={{ marginLeft: 16 }}>
+                      <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
+                        Tên trung tâm vận chuyển
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                         Địa chỉ chính xác

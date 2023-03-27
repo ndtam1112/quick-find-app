@@ -1,8 +1,9 @@
 import { Text } from '@react-native-material/core'
 import React from 'react'
+import NoOrder from '../state/NoOrder'
 
 const Order = () => {
-  return <Text>Order</Text>
+  return <NoOrder />
 }
 
 export default Order

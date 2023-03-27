@@ -111,7 +111,7 @@ const Setting = ({ navigation }) => {
     navigation.navigate('Info')
   }
   const pressHanderLogin = () => {
-    navigation.navigate('Login')
+    navigation.navigate('Authentication')
   }
   const pressHanderBack = () => {
     navigation.goBack()

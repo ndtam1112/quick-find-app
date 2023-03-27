@@ -1,4 +1,9 @@
-import { Entypo, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
+import {
+  Entypo,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons'
 import { Button, Flex, Text } from '@react-native-material/core'
 import React from 'react'
 import {
@@ -10,7 +15,6 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -75,9 +79,9 @@ const styles = StyleSheet.create({
   },
 })
 
-const SelectFrom = ({ navigation }) => {
-  const pressSetFrom = () => {
-    navigation.navigate('SetFrom')
+const SelectCenter = ({ navigation }) => {
+  const pressInforOrder = () => {
+    navigation.navigate('InfoOrder')
   }
   const pressHanderBack = () => {
     navigation.goBack()
@@ -92,7 +96,9 @@ const SelectFrom = ({ navigation }) => {
         <Flex style={styles.bximg}>
           <Image style={styles.img} source={require('../../assets/map.png')} />
         </Flex>
-        <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        <TouchableOpacity onPress={pressHanderBack}>
+          <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        </TouchableOpacity>
         <Flex style={styles.from}>
           <Flex
             style={{
@@ -101,10 +107,10 @@ const SelectFrom = ({ navigation }) => {
               alignItems: 'center',
             }}
           >
-            <Entypo name="location" size={24} color="black" />
+            <MaterialCommunityIcons name="ambulance" size={24} color="black" />
             <Flex style={{ marginLeft: 16 }}>
               <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                Tên bệnh viện
+                Tên trung tâm
               </Text>
               <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                 Địa chỉ chính xác
@@ -114,14 +120,14 @@ const SelectFrom = ({ navigation }) => {
           <MaterialIcons name="favorite" size={20} color="black" />
         </Flex>
 
-        <TouchableOpacity onPress={pressSetFrom}>
-          <View style={styles.btn}>
+        <TouchableOpacity onPress={pressInforOrder}>
+          <Flex style={styles.btn}>
             <Entypo name="direction" size={24} color="black" />
-          </View>
+          </Flex>
         </TouchableOpacity>
       </Flex>
     </TouchableWithoutFeedback>
   )
 }
 
-export default SelectFrom
+export default SelectCenter

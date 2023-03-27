@@ -18,19 +18,27 @@ const ListChat = () => {
       display: 'flex',
     },
     header: {
-      backgroundColor: '#00629D',
-      paddingTop: 60,
-      paddingLeft: 24,
-      paddingBottom: 16,
-      height: 100,
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
       display: 'flex',
+      justifyContent: 'space-between',
       alignItems: 'center',
       flexDirection: 'row',
+      backgroundColor: '#00629D',
+      height: '12%',
+      width: '100%',
+      paddingTop: 32,
+      paddingLeft: 24,
+      paddingRight: 24,
     },
     iconbtn: {
-      fontSize: 18,
       color: '#fff',
-      marginRight: 16,
+      fontSize: 20,
+    },
+    iconbtnn: {
+      color: '#00629D',
+      fontSize: 20,
     },
     h2: {
       color: '#fff',
@@ -230,8 +238,9 @@ const ListChat = () => {
   return (
     <Flex style={styles.container}>
       <Flex style={styles.header}>
-        <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        <Entypo name="chevron-thin-left" style={styles.iconbtnn} />
         <Text style={styles.h2}>Tin nhắn</Text>
+        <Entypo name="chevron-thin-left" style={styles.iconbtnn} />
       </Flex>
       <FlatList
         style={styles.flist}

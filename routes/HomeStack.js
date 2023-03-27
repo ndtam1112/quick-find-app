@@ -18,6 +18,8 @@ import InfoOrder from '../screens/Home/InfoOrder'
 import SearchDriver from '../screens/Home/SearchDriver'
 import DriverComing from '../screens/Home/DriverComing'
 import Complete from '../screens/Home/Complete'
+import SetCenter from '../screens/Home/SetCenter'
+import SelectCenter from '../screens/Home/SelectCenter'
 
 const Stack = createStackNavigator()
 const HomeStack = () => {
@@ -36,6 +38,8 @@ const HomeStack = () => {
       <Stack.Screen name="SelectTo" component={SelectTo} />
       <Stack.Screen name="SetFrom" component={SetFrom} />
       <Stack.Screen name="SelectFrom" component={SelectFrom} />
+      <Stack.Screen name="SetCenter" component={SetCenter} />
+      <Stack.Screen name="SelectCenter" component={SelectCenter} />
       <Stack.Screen name="ListFav" component={ListFav} />
       <Stack.Screen name="DetailHospital" component={DetailHospital} />
     </Stack.Navigator>
