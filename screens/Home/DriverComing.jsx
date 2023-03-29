@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   iconbtn: {
     position: 'absolute',
-    bottom: 720,
+    bottom: 680,
     left: 24,
     color: '#111',
     fontSize: 20,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   iconbtnn: {
     position: 'absolute',
-    bottom: 720,
+    bottom: 640,
     left: 24,
     color: '#111',
     fontSize: 20,
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
 
 const DriverComing = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const pressInforOrder = () => {
-    navigation.navigate('InfoOrder')
+  const pressComplete = () => {
+    navigation.navigate('Complete')
   }
   const pressHanderBack = () => {
     navigation.goBack()
@@ -198,6 +198,12 @@ const DriverComing = ({ navigation }) => {
               size={50}
               style={{ marginLeft: 16 }}
               color="black"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={pressComplete}>
+            <Entypo
+              name="chevron-thin-right"
+              style={{ fontSize: 24, marginLeft: 16 }}
             />
           </TouchableOpacity>
         </Flex>

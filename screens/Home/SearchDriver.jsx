@@ -165,9 +165,7 @@ const SearchDriver = ({ navigation }) => {
         <TouchableOpacity onPress={pressHanderBack}>
           <Entypo name="chevron-thin-left" style={styles.iconbtn} />
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={pressDriverComing}>
-          <Entypo name="chevron-thin-right" style={styles.iconbtnn} />
-        </TouchableOpacity> */}
+
         <Flex
           style={{
             position: 'absolute',
@@ -199,11 +197,12 @@ const SearchDriver = ({ navigation }) => {
           center
           style={{
             position: 'absolute',
-            top: 0,
+            top: 450,
             left: 0,
             right: 0,
-            bottom: 100,
-            justifyContent: 'flex-end',
+            bottom: 0,
+            flexDirection: 'row',
+            justifyContent: 'center',
             alignItems: 'center',
           }}
         >
@@ -213,6 +212,12 @@ const SearchDriver = ({ navigation }) => {
           >
             <MaterialCommunityIcons name="cancel" size={40} color="black" />
             <Text style={{ color: 'red', marginTop: 4 }}>Hủy bỏ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={pressDriverComing}>
+            <Entypo
+              name="chevron-thin-right"
+              style={{ fontSize: 24, marginLeft: 16 }}
+            />
           </TouchableOpacity>
         </Flex>
         <Modal
