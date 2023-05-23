@@ -200,10 +200,11 @@ const SetTo = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Tên bệnh viện
+                      Bệnh viện Bạch Mai
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      Số 78 đường Giải Phóng, phường Phương Mai, quận Đống Đa,
+                      Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -222,10 +223,10 @@ const SetTo = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Tên bệnh viện
+                      Bệnh viện Nhiệt đới Trung ương
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      Số 78, Đường Giải Phóng, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -244,10 +245,10 @@ const SetTo = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Tên bệnh viện
+                      Bệnh viện Đại học Y Hà Nội
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      1 P. Tôn Thất Tùng, Kim Liên, Đống Đa, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -289,10 +290,10 @@ const SetTo = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Tên bệnh viện
+                        Bệnh viện Y học Cổ truyền Bộ công an
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        Địa chỉ chính xác
+                        278 Lương Thế Vinh, Trung Văn, Từ Liêm, Hà Nội
                       </Text>
                     </Flex>
                   </Flex>

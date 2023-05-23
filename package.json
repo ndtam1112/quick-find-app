@@ -31,7 +31,9 @@
     "react-navigation-stack": "^2.10.4",
     "styled-components": "^5.3.9",
     "react-native-gesture-handler": "~2.9.0",
-    "@react-native-masked-view/masked-view": "0.2.8"
+    "@react-native-masked-view/masked-view": "0.2.8",
+    "react-native-web": "~0.18.10",
+    "@expo/webpack-config": "^18.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

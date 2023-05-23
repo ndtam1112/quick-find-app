@@ -255,10 +255,10 @@ const SetFrom = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Trường Đại học Kinh tế Quốc dân
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      207 Giải Phóng, Đồng Tâm, Hai Bà Trưng, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -277,10 +277,10 @@ const SetFrom = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Trường Đại học Y Hà Nội
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      1 P. Tôn Thất Tùng, Kim Liên, Đống Đa, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -299,10 +299,10 @@ const SetFrom = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Địa chỉ
+                      Trường Đại học Thủy Lợi
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      175 P. Tây Sơn, Trung Liệt, Đống Đa, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -446,10 +446,10 @@ const SetFrom = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Địa chỉ
+                        Trường Đại học Thủy Lợi
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        Địa chỉ chính xác
+                        175 P. Tây Sơn, Trung Liệt, Đống Đa, Hà Nội
                       </Text>
                     </Flex>
                   </Flex>

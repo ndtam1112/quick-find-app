@@ -262,10 +262,10 @@ const SetCenter = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Tên trung tâm
+                      Cấp cứu 911 Hà Nội
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -284,10 +284,11 @@ const SetCenter = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Tên trung tâm
+                      Trung tâm vận chuyển cấp cứu Bắc Việt
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      2V75+JJ9, 48 P. Tăng Bạt Hổ, Phạm Đình Hổ, Hai Bà Trưng,
+                      Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -306,10 +307,10 @@ const SetCenter = ({ navigation }) => {
                   <FontAwesome5 name="map-marker-alt" size={24} color="black" />
                   <Flex style={{ marginLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                      Tên trung tâm
+                      Công ty TNHH MTV Vận chuyển cấp cứu 24/7
                     </Text>
                     <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                      Địa chỉ chính xác
+                      879 Đ. La Thành, Láng Thượng, Đống Đa, Hà Nội
                     </Text>
                   </Flex>
                 </Flex>
@@ -364,12 +365,12 @@ const SetCenter = ({ navigation }) => {
                         />
                         <Flex style={{ marginLeft: 16 }}>
                           <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                            Tên trung tâm
+                            Cấp cứu 911 Hà Nội
                           </Text>
                           <Text
                             style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
                           >
-                            Địa chỉ chính xác
+                            44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội
                           </Text>
                         </Flex>
                       </Flex>
@@ -465,10 +466,10 @@ const SetCenter = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Tên trung tâm
+                        Cấp cứu 911 Hà Nội
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        Địa chỉ chính xác
+                        44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội
                       </Text>
                     </Flex>
                   </Flex>

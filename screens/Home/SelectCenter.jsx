@@ -110,10 +110,10 @@ const SelectCenter = ({ navigation }) => {
             <MaterialCommunityIcons name="ambulance" size={24} color="black" />
             <Flex style={{ marginLeft: 16 }}>
               <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                Tên trung tâm
+                Cấp cứu 911 Hà Nội
               </Text>
               <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                Địa chỉ chính xác
+                44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội
               </Text>
             </Flex>
           </Flex>

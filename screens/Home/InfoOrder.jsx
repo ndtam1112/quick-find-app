@@ -232,10 +232,10 @@ const InfoOrder = ({ navigation }) => {
                     <FontAwesome5 name="map-pin" size={24} color="black" />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Địa chỉ
+                        Trường Đại học Thủy Lợi
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        Địa chỉ chính xác
+                        175 P. Tây Sơn, Trung Liệt, Đống Đa, Hà Nội
                       </Text>
                     </Flex>
                   </Flex>
@@ -261,10 +261,10 @@ const InfoOrder = ({ navigation }) => {
                     <Entypo name="location" size={24} color="black" />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Địa chỉ
+                        Bệnh viện Đại học Y Hà Nội
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        Địa chỉ chính xác
+                        1 P. Tôn Thất Tùng, Kim Liên, Đống Đa, Hà Nội
                       </Text>
                     </Flex>
                   </Flex>
@@ -293,10 +293,10 @@ const InfoOrder = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Tên trung tâm vận chuyển
+                        Cấp cứu 911 Hà Nội
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        Địa chỉ chính xác
+                        44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội
                       </Text>
                     </Flex>
                   </Flex>
