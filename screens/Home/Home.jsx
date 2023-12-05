@@ -82,6 +82,7 @@ const Home = ({ navigation }) => {
   const pressListFav = () => {
     navigation.navigate('ListFav')
   }
+  const [text, onChangeText] = React.useState('')
 
   return (
     <TouchableWithoutFeedback
@@ -114,6 +115,7 @@ const Home = ({ navigation }) => {
             cursorColor={'#485563'}
             selectionColor={'#29323C'}
             placeholder="Tìm kiếm bệnh viện"
+            onChangeText={onChangeText}
             style={styles.txinput}
             leading={(props) => (
               <EvilIcons name="search" size={24} color="black" />

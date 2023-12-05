@@ -53,7 +53,7 @@ const SignUp_2 = ({ navigation }) => {
         <Flex style={styles.container}>
           <Text style={globalStyle.label}>Username</Text>
           <Flex style={{ flexDirection: 'row' }}>
-            <Text>ndtam</Text>
+            <Text>{username}</Text>
             <Text
               style={{
                 textDecorationStyle: 'solid',
