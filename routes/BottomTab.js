@@ -6,7 +6,7 @@ import HomeStack from './HomeStack'
 import ChatStack from './ChatStack'
 import EmergencyStack from './EmergencyStack'
 import OrderStack from './OrderStack'
-import SettingStack from './SettingStack'
+import SettingStack from './settingStack'
 import { Ionicons } from '@expo/vector-icons'
 
 const Tab = createBottomTabNavigator()
