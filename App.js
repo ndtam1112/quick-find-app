@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { StyleSheet, Text, View } from 'react-native'
-import AuthStack from './routes/authStack'
+import AuthStack from './routes/AuthStack'
 import BottomTab from './routes/BottomTab'
 // import Navigator from './routes/authStack'
 import SelectTo from './screens/Home/SelectTo'
@@ -13,6 +13,7 @@ import SearchDriver from './screens/Home/SearchDriver'
 import DriverComing from './screens/Home/DriverComing'
 import Complete from './screens/Home/Complete'
 import SetCenter from './screens/Home/SetCenter'
+import Order from './screens/Orders/Order'
 
 export default function App() {
   return (

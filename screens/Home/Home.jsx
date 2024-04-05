@@ -1,5 +1,5 @@
 import { Flex, Text, TextInput } from '@react-native-material/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Image,
   Keyboard,
@@ -10,6 +10,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons'
 import { EvilIcons } from '@expo/vector-icons'
 import { globalStyle } from '../../styles/global'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
 const styles = StyleSheet.create({
   container: {
@@ -47,10 +48,12 @@ const styles = StyleSheet.create({
   txinput: {
     color: '#111',
     borderBottomColor: '#485563',
-    marginTop: 16,
+    marginTop: 0,
     borderColor: '#fff',
+    flex: 1,
   },
   content: {
+    flex: 2,
     display: 'flex',
     width: '100%',
     paddingLeft: 24,
@@ -83,6 +86,15 @@ const Home = ({ navigation }) => {
     navigation.navigate('ListFav')
   }
   const [text, onChangeText] = React.useState('')
+  const [originPlace, setoriginPlace] = useState('')
+  const [destinationPlace, setdestinationPlace] = useState('')
+
+  useEffect(() => {
+    console.warn('useEffect is called')
+    if (originPlace && destinationPlace) {
+      console.warn('Redirect to results')
+    }
+  }, [originPlace, destinationPlace])
 
   return (
     <TouchableWithoutFeedback
@@ -111,7 +123,7 @@ const Home = ({ navigation }) => {
               <MaterialIcons name="favorite" size={24} color="black" />
             </TouchableOpacity>
           </Flex>
-          <TextInput
+          {/* <TextInput
             cursorColor={'#485563'}
             selectionColor={'#29323C'}
             placeholder="Tìm kiếm bệnh viện"
@@ -120,6 +132,24 @@ const Home = ({ navigation }) => {
             leading={(props) => (
               <EvilIcons name="search" size={24} color="black" />
             )}
+          /> */}
+          <GooglePlacesAutocomplete
+            style={styles.txinput}
+            leading={(props) => (
+              <EvilIcons name="search" size={24} color="black" />
+            )}
+            cursorColor={'#485563'}
+            selectionColor={'#29323C'}
+            placeholder="Search"
+            onPress={(data, details = null) => {
+              setdestinationPlace({ data, details })
+              console.log(data, details)
+            }}
+            fetchDetails
+            query={{
+              key: 'AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM',
+              language: 'en',
+            }}
           />
         </Flex>
         <Flex style={styles.content}>

@@ -5,7 +5,7 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import { Button, Flex, Text, TextInput } from '@react-native-material/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Image,
   Keyboard,
@@ -20,6 +20,7 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'
 import { fontWeight } from '@mui/system'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
 const styles = StyleSheet.create({
   container: {
@@ -198,6 +199,16 @@ const SetFrom = ({ navigation }) => {
   const pressHanderBack = () => {
     navigation.goBack()
   }
+  const [text, onChangeText] = React.useState('')
+  const [originPlace, setoriginPlace] = useState('')
+  const [destinationPlace, setdestinationPlace] = useState('')
+
+  useEffect(() => {
+    console.warn('useEffect is called')
+    if (originPlace && destinationPlace) {
+      console.warn('Redirect to results')
+    }
+  }, [originPlace, destinationPlace])
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -227,14 +238,23 @@ const SetFrom = ({ navigation }) => {
                 <Ionicons name="ios-map-outline" size={24} color="white" />
               </TouchableOpacity>
             </Flex>
-            <TextInput
-              cursorColor={'#485563'}
-              selectionColor={'#29323C'}
-              placeholder="Điểm đón?"
+            <GooglePlacesAutocomplete
               style={styles.txinput}
               leading={(props) => (
                 <FontAwesome5 name="map-pin" size={24} color="black" />
               )}
+              cursorColor={'#485563'}
+              selectionColor={'#29323C'}
+              placeholder="Điểm đón?"
+              onPress={(data, details = null) => {
+                setoriginPlace({ data, details })
+                console.log(data, details)
+              }}
+              fetchDetails
+              query={{
+                key: 'AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM',
+                language: 'en',
+              }}
             />
           </Flex>
           <Flex style={styles.listSub}>

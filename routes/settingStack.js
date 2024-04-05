@@ -9,7 +9,7 @@ import SignUp_3 from '../screens/Authen/SignUp_3'
 import React from 'react'
 import Setting from '../screens/Settings/Setting'
 import Info from '../screens/Settings/Info'
-import AuthStack from './authStack'
+import AuthStack from './AuthStack'
 
 const Stack = createStackNavigator()
 const SettingStack = () => {
