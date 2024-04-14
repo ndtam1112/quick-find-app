@@ -203,12 +203,12 @@ const SetFrom = ({ navigation }) => {
   const [originPlace, setoriginPlace] = useState('')
   const [destinationPlace, setdestinationPlace] = useState('')
 
-  useEffect(() => {
-    console.warn('useEffect is called')
-    if (originPlace && destinationPlace) {
-      console.warn('Redirect to results')
-    }
-  }, [originPlace, destinationPlace])
+  // useEffect(() => {
+  //   console.warn('useEffect is called')
+  //   if (originPlace && destinationPlace) {
+  //     console.warn('Redirect to results')
+  //   }
+  // }, [originPlace, destinationPlace])
   return (
     <TouchableWithoutFeedback
       onPress={() => {

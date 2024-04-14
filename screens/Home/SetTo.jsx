@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'
 import { fontWeight } from '@mui/system'
 import { TouchableOpacity } from 'react-native'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
 const styles = StyleSheet.create({
   container: {
@@ -144,15 +145,15 @@ const SetTo = ({ navigation }) => {
     navigation.goBack()
   }
   const [text, onChangeText] = React.useState('')
-  const [originPlace, setoriginPlace] = useState('')
-  const [destinationPlace, setdestinationPlace] = useState('')
+  const [originPlace, setoriginPlace] = React.useState('')
+  const [destinationPlace, setdestinationPlace] = React.useState('')
 
-  useEffect(() => {
-    console.warn('useEffect is called')
-    if (originPlace && destinationPlace) {
-      console.warn('Redirect to results')
-    }
-  }, [originPlace, destinationPlace])
+  // useEffect(() => {
+  //   console.warn('useEffect is called')
+  //   if (originPlace && destinationPlace) {
+  //     console.warn('Redirect to results')
+  //   }
+  // }, [originPlace, destinationPlace])
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -190,10 +191,10 @@ const SetTo = ({ navigation }) => {
               cursorColor={'#485563'}
               selectionColor={'#29323C'}
               placeholder="Điểm đến?"
-              onPress={(data, details = null) => {
-                setdestinationPlace({ data, details })
-                console.log(data, details)
-              }}
+              // onPress={(data, details = null) => {
+              //   setdestinationPlace({ data, details })
+              //   console.log(data, details)
+              // }}
               fetchDetails
               query={{
                 key: 'AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM',
