@@ -15,12 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier":"com.quickfindapp",
+      "config":{
+        "googleMapsApiKey":"AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package":"com.quickfindapp",
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM"
+        },
+        "permissions":["ACCESS_COARSE_LOCATION","ACCESS_FINE_LOCATION","FOREGROUND_SERVICE"]
       }
     },
     "web": {
