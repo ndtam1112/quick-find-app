@@ -16,10 +16,6 @@ import centerAround from '../../global/data.js'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import * as Location from 'expo-location'
 
-import Geocoder from 'react-native-geocoding'
-
-import Geolocation from 'react-native-geolocation-service'
-
 const SelectTo = ({ navigation }) => {
   const _map = useRef(1)
 
