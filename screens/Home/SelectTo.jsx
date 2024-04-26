@@ -13,81 +13,61 @@ import {
   View,
 } from 'react-native'
 import centerAround from '../../global/data.js'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import * as Location from 'expo-location'
 
+import Geocoder from 'react-native-geocoding'
+
+import Geolocation from 'react-native-geolocation-service'
+
 const SelectTo = ({ navigation }) => {
-  const [latlng, setLatLng] = useState({})
   const _map = useRef(1)
-  const checkPermission = async () => {
-    const hasPermission = await Location.requestForegroundPermissionsAsync()
-    if (hasPermission.status === 'granted') {
-      const permission = await askPermission()
-      return permission
-    }
-    return true
+
+  const [title, setTitle] = useState('Điểm đón')
+  const [desc, setDesc] = useState('Địa chỉ chính xác')
+
+  // Function to handle marker press
+  const handleMarkerPress = (markerTitle, markerDesc) => {
+    setTitle(markerTitle)
+    setDesc(markerDesc)
   }
-  const askPermission = async () => {
-    const permission = await Location.requestForegroundPermissionsAsync()
-    return permission.status === 'granted'
-  }
-  const getLocation = async () => {
-    try {
-      const { granted } = await Location.requestForegroundPermissionsAsync()
-      if (!graned) return
-      const {
-        coords: { latitude, longitude },
-      } = await Location.getCurrentPositionAsync()
-      setLatLng({ latitude: latitude, longitude: longitude })
-    } catch (err) {}
-  }
+
+  const [currentLocation, setCurrentLocation] = useState(null)
+  const [initialRegion, setInitialRegion] = useState(null)
+
   useEffect(() => {
-    checkPermission()
+    const getLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied')
+        return
+      }
+
+      let location = await Location.getCurrentPositionAsync({})
+      setCurrentLocation(location.coords)
+
+      setInitialRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      })
+    }
+
     getLocation()
-    console.log(latlng), []
-  })
+  }, [])
+
+  onRegionChange = (region) => {
+    this.setState({ region })
+  }
 
   const pressSetFrom = () => {
     navigation.navigate('SetFrom')
   }
+
   const pressHanderBack = () => {
     navigation.goBack()
   }
-
-  const centerAround = [
-    {
-      nameCenter: 'Cấp',
-      numberCenter: '',
-      location: 'Văn',
-      latitude: 20,
-      longitude: 105,
-    },
-    {
-      nameCenter: 'Cấp cứu 911 Việt Nam',
-      numberCenter: '',
-      location: 'Văn Khê, Khu đô thị Văn Khê, Hà Đông, Hà Nội, Việt Nam',
-      latitude: 20.977031041316064,
-      longitude: 105.76277515152955,
-    },
-    {
-      nameCenter: 'Trung tâm Cấp cứu 911 Việt Nam',
-      numberCenter: '0346911911',
-      location: '127 P. Đốc Ngữ, Liễu Giai, Ba Đình, Hà Nội, Việt Nam',
-      latitude: 21.0427331617877,
-      longitude: 105.81290026808536,
-    },
-    {
-      nameCenter: 'Đội xe cấp cứu 911 Việt Nam',
-      numberCenter: '0346911911',
-      location:
-        'Trung tâm Giáo dục Thường xuyên Ba Đình, TT 301, 301 P. Đội Cấn, Cống Vị, Ba Đình, Hà Nội 100000, Việt Nam',
-      latitude: 21.040490152094602,
-      longitude: 105.81393023623376,
-    },
-  ]
-
-  centerAround.map(centerArounds)
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -95,29 +75,41 @@ const SelectTo = ({ navigation }) => {
       }}
     >
       <View style={styles.container}>
-        <MapView
-          ref={_map}
-          showUserLoaction={true}
-          followUserLocation={true}
-          rotateEnabled={true}
-          zoomEnabled={true}
-          toolbarEnabled={true}
-          provider={PROVIDER_GOOGLE}
-          style={styles.bximg}
-        >
-          {centerArounds((item, index) => (
-            <MapView.Marker coordinate={item} key={index.toString()}>
-              <Image
-                source={require('../../assets/ambulance.png')}
-                resizeMode="cover"
+        {/* Lấy vị trí hiện tại: https://medium.com/@Sarmilasivaraja/integrating-real-time-map-with-user-location-in-a-react-native-app-d0bef63ba3b2 */}
+        {initialRegion && (
+          <MapView
+            ref={_map}
+            showUserLocation={true}
+            followUserLocation={true}
+            rotateEnabled={true}
+            zoomEnabled={true}
+            toolbarEnabled={true}
+            provider={PROVIDER_GOOGLE}
+            style={styles.bximg}
+            initialRegion={initialRegion}
+          >
+            {currentLocation && (
+              <Marker
+                coordinate={{
+                  latitude: currentLocation.latitude,
+                  longitude: currentLocation.longitude,
+                }}
+                title={title}
+                description={desc}
+                onPress={() =>
+                  handleMarkerPress(latitude, 'Custom Description')
+                }
+                draggable
               />
-            </MapView.Marker>
-          ))}
-        </MapView>
-        {/* <Flex style={styles.bximg}>
-          <Image style={styles.img} source={require('../../assets/map.png')} />
-        </Flex> */}
-        <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+            )}
+          </MapView>
+        )}
+
+        <Entypo
+          onPress={pressHanderBack}
+          name="chevron-thin-left"
+          style={styles.iconbtn}
+        />
         <View style={styles.from}>
           <Flex
             style={{
@@ -128,12 +120,20 @@ const SelectTo = ({ navigation }) => {
           >
             <Entypo name="location" size={24} color="black" />
             <Flex style={{ marginLeft: 16 }}>
-              <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                Tên bệnh viện
-              </Text>
-              <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                Địa chỉ chính xác
-              </Text>
+              <TextInput
+                style={{ fontWeight: 'bold', lineHeight: 24 }}
+                value={title}
+                onChangeText={(text) => setTitle(text)}
+              >
+                {/* Tên bệnh viện */}
+              </TextInput>
+              <TextInput
+                style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
+                value={desc}
+                onChangeText={(text) => setDesc(text)}
+              >
+                {/* Địa chỉ chính xác */}
+              </TextInput>
             </Flex>
           </Flex>
           <MaterialIcons name="favorite" size={20} color="black" />
@@ -155,18 +155,26 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '100%',
   },
   iconbtn: {
     position: 'absolute',
-    bottom: 640,
+    bottom: 760,
     left: 24,
     color: '#111',
     fontSize: 20,
   },
   bximg: {
-    width: '100%',
-    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // width: '100%',
+    // height: '100%',
   },
   img: {
     resizeMode: 'cover',
@@ -177,7 +185,7 @@ const styles = StyleSheet.create({
     width: '80%',
     position: 'absolute',
     bottom: 120,
-    left: 32,
+    left: 40,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -189,8 +197,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     position: 'absolute',
-    right: 24,
-    bottom: 32,
+    left: 80,
+    top: 320,
     paddingLeft: 32,
     paddingRight: 32,
     paddingTop: 16,

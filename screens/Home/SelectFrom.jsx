@@ -12,6 +12,113 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
+const SelectFrom = ({ navigation }) => {
+  const [latlng, setLatLng] = useState({})
+  const _map = useRef(1)
+  const checkPermission = async () => {
+    const hasPermission = await Location.requestForegroundPermissionsAsync()
+    if (hasPermission.status === 'granted') {
+      const permission = await askPermission()
+      return permission
+    }
+    return true
+  }
+  const askPermission = async () => {
+    const permission = await Location.requestForegroundPermissionsAsync()
+    return permission.status === 'granted'
+  }
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync()
+      if (!graned) return
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync()
+      setLatLng({ latitude: latitude, longitude: longitude })
+    } catch (err) {}
+  }
+  useEffect(() => {
+    checkPermission()
+    getLocation()
+    console.log(latlng), []
+  })
+
+  const pressSetCenter = () => {
+    navigation.navigate('SetCenter')
+  }
+  const pressHanderBack = () => {
+    navigation.goBack()
+  }
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss()
+      }}
+    >
+      <View style={styles.container}>
+        <MapView
+          ref={_map}
+          showUserLoaction={true}
+          followUserLocation={true}
+          rotateEnabled={true}
+          zoomEnabled={true}
+          toolbarEnabled={true}
+          provider={PROVIDER_GOOGLE}
+          style={styles.bximg}
+        >
+          {/* {centerArounds((item, index) => (
+            <MapView.Marker coordinate={item} key={index.toString()}>
+              <Image
+                source={require('../../assets/ambulance.png')}
+                resizeMode="cover"
+              />
+            </MapView.Marker>
+          ))} */}
+        </MapView>
+        <TouchableOpacity onPress={pressHanderBack}>
+          <Entypo name="chevron-thin-left" style={styles.iconbtn} />
+        </TouchableOpacity>
+        <Flex style={styles.from}>
+          <Flex
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <FontAwesome5 name="map-pin" size={24} color="black" />
+            <Flex style={{ marginLeft: 16 }}>
+              <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
+                Địa chỉ
+              </Text>
+              <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
+                Địa chỉ chính xác
+              </Text>
+            </Flex>
+          </Flex>
+          <MaterialIcons name="favorite" size={20} color="black" />
+        </Flex>
+
+        <TextInput
+          multiline={true}
+          style={styles.txinput}
+          cursorColor={'#485563'}
+          selectionColor={'#29323C'}
+          variant="standard"
+          placeholder="Ghi chú (nếu có)"
+        />
+        <TouchableOpacity onPress={pressSetCenter}>
+          <Flex style={styles.btn}>
+            <Entypo name="direction" size={24} color="black" />
+          </Flex>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
+  )
+}
+
+export default SelectFrom
+
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
@@ -73,64 +180,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)',
   },
 })
-
-const SelectFrom = ({ navigation }) => {
-  const pressSetCenter = () => {
-    navigation.navigate('SetCenter')
-  }
-  const pressHanderBack = () => {
-    navigation.goBack()
-  }
-  return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss()
-      }}
-    >
-      <Flex style={styles.container}>
-        <Flex style={styles.bximg}>
-          <Image style={styles.img} source={require('../../assets/map.png')} />
-        </Flex>
-        <TouchableOpacity onPress={pressHanderBack}>
-          <Entypo name="chevron-thin-left" style={styles.iconbtn} />
-        </TouchableOpacity>
-        <Flex style={styles.from}>
-          <Flex
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <FontAwesome5 name="map-pin" size={24} color="black" />
-            <Flex style={{ marginLeft: 16 }}>
-              <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                Địa chỉ
-              </Text>
-              <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                Địa chỉ chính xác
-              </Text>
-            </Flex>
-          </Flex>
-          <MaterialIcons name="favorite" size={20} color="black" />
-        </Flex>
-
-        <TextInput
-          multiline={true}
-          style={styles.txinput}
-          cursorColor={'#485563'}
-          selectionColor={'#29323C'}
-          variant="standard"
-          placeholder="Ghi chú (nếu có)"
-        />
-        <TouchableOpacity onPress={pressSetCenter}>
-          <Flex style={styles.btn}>
-            <Entypo name="direction" size={24} color="black" />
-          </Flex>
-        </TouchableOpacity>
-      </Flex>
-    </TouchableWithoutFeedback>
-  )
-}
-
-export default SelectFrom

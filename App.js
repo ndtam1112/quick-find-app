@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { StyleSheet, Text, View } from 'react-native'
 import AuthStack from './routes/AuthStack'
 import BottomTab from './routes/BottomTab'
+import { Provider } from 'react-redux'
+import { store } from './store'
 // import Navigator from './routes/authStack'
 import SelectTo from './screens/Home/SelectTo'
 import SetFrom from './screens/Home/SetFrom'
@@ -14,11 +16,14 @@ import DriverComing from './screens/Home/DriverComing'
 import Complete from './screens/Home/Complete'
 import SetCenter from './screens/Home/SetCenter'
 import Order from './screens/Orders/Order'
+import MapComponent from './components/MapComponent'
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <BottomTab />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <BottomTab />
+      </NavigationContainer>
+    </Provider>
   )
 }
