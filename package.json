@@ -28,6 +28,7 @@
     "expo": "^49.0.23",
     "expo-location": "~16.1.0",
     "expo-status-bar": "~1.6.0",
+    "haversine": "^1.1.1",
     "msnodesqlv8": "^4.1.2",
     "mssql": "^10.0.2",
     "prop-types": "^15.8.1",

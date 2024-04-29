@@ -13,14 +13,14 @@ import {
   View,
 } from 'react-native'
 import centerAround from '../../global/data.js'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps'
 import * as Location from 'expo-location'
 
 const SelectTo = ({ navigation }) => {
   const _map = useRef(1)
 
-  const [title, setTitle] = useState('Điểm đón')
-  const [desc, setDesc] = useState('Địa chỉ chính xác')
+  const [title, setTitle] = useState()
+  const [desc, setDesc] = useState()
 
   // Function to handle marker press
   const handleMarkerPress = (markerTitle, markerDesc) => {
@@ -30,17 +30,22 @@ const SelectTo = ({ navigation }) => {
 
   const [currentLocation, setCurrentLocation] = useState(null)
   const [initialRegion, setInitialRegion] = useState(null)
+  const [location, setLocation] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     const getLocation = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
-        console.log('Permission to access location was denied')
+        setErrorMsg('Permission to access location was denied')
         return
       }
 
       let location = await Location.getCurrentPositionAsync({})
       setCurrentLocation(location.coords)
+      setLocation(location)
+      console.log('LocationCoord:')
+      console.log(location)
 
       setInitialRegion({
         latitude: location.coords.latitude,
@@ -52,6 +57,32 @@ const SelectTo = ({ navigation }) => {
 
     getLocation()
   }, [])
+
+  const geocode = async () => {
+    const geocodedLocation = await Location.geocodeAsync(title)
+    console.log('Geocode:')
+    console.log(geocodedLocation)
+  }
+
+  const reverseGeocode = async () => {
+    const reverseGeocodeAddress = await Location.reverseGeocodeAsync({
+      longitude: location.coords.longitude,
+      latitude: location.coords.latitude,
+    })
+    setTitle(reverseGeocodeAddress[0])
+    setDesc(reverseGeocodeAddress[0])
+    console.log('Reverse:')
+    console.log(reverseGeocodeAddress)
+  }
+
+  let text2 = 'Waiting..'
+  if (errorMsg) {
+    text2 = errorMsg
+  } else if (location) {
+    text2 = `${JSON.stringify(desc?.['name'])}, ${JSON.stringify(
+      desc?.['subregion']
+    )}, ${JSON.stringify(desc?.['region'])}`
+  }
 
   onRegionChange = (region) => {
     this.setState({ region })
@@ -83,6 +114,7 @@ const SelectTo = ({ navigation }) => {
             provider={PROVIDER_GOOGLE}
             style={styles.bximg}
             initialRegion={initialRegion}
+            loadingEnabled
           >
             {currentLocation && (
               <Marker
@@ -90,11 +122,6 @@ const SelectTo = ({ navigation }) => {
                   latitude: currentLocation.latitude,
                   longitude: currentLocation.longitude,
                 }}
-                title={title}
-                description={desc}
-                onPress={() =>
-                  handleMarkerPress(latitude, 'Custom Description')
-                }
                 draggable
               />
             )}
@@ -106,6 +133,7 @@ const SelectTo = ({ navigation }) => {
           name="chevron-thin-left"
           style={styles.iconbtn}
         />
+        <Button onPress={reverseGeocode} />
         <View style={styles.from}>
           <Flex
             style={{
@@ -118,17 +146,15 @@ const SelectTo = ({ navigation }) => {
             <Flex style={{ marginLeft: 16 }}>
               <TextInput
                 style={{ fontWeight: 'bold', lineHeight: 24 }}
-                value={title}
-                onChangeText={(text) => setTitle(text)}
-              >
-                {/* Tên bệnh viện */}
-              </TextInput>
+                placeholder="Điểm đến"
+                onChangeText={setTitle}
+              ></TextInput>
               <TextInput
                 style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
-                value={desc}
-                onChangeText={(text) => setDesc(text)}
+                placeholder="Địa chỉ chính xác"
+                onChangeText={setDesc}
               >
-                {/* Địa chỉ chính xác */}
+                {text2}
               </TextInput>
             </Flex>
           </Flex>
