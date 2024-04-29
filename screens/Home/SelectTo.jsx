@@ -53,32 +53,43 @@ const SelectTo = ({ navigation }) => {
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       })
+
+      let reverseGeocodeAddress = await Location.reverseGeocodeAsync({
+        longitude: location.coords.longitude,
+        latitude: location.coords.latitude,
+      })
+      setTitle(reverseGeocodeAddress[0])
+      setDesc(reverseGeocodeAddress[0])
+      console.log('Reverse:')
+      console.log(reverseGeocodeAddress)
     }
 
     getLocation()
   }, [])
 
-  const geocode = async () => {
-    const geocodedLocation = await Location.geocodeAsync(title)
-    console.log('Geocode:')
-    console.log(geocodedLocation)
-  }
+  // const geocode = async () => {
+  //   const geocodedLocation = await Location.geocodeAsync(title)
+  //   console.log('Geocode:')
+  //   console.log(geocodedLocation)
+  // }
 
-  const reverseGeocode = async () => {
-    const reverseGeocodeAddress = await Location.reverseGeocodeAsync({
-      longitude: location.coords.longitude,
-      latitude: location.coords.latitude,
-    })
-    setTitle(reverseGeocodeAddress[0])
-    setDesc(reverseGeocodeAddress[0])
-    console.log('Reverse:')
-    console.log(reverseGeocodeAddress)
-  }
+  // const reverseGeocode = async () => {
+  //   const reverseGeocodeAddress = await Location.reverseGeocodeAsync({
+  //     longitude: location.coords.longitude,
+  //     latitude: location.coords.latitude,
+  //   })
+  //   setTitle(reverseGeocodeAddress[0])
+  //   setDesc(reverseGeocodeAddress[0])
+  //   console.log('Reverse:')
+  //   console.log(reverseGeocodeAddress)
+  // }
 
+  let text1 = 'Waiting..'
   let text2 = 'Waiting..'
   if (errorMsg) {
     text2 = errorMsg
   } else if (location) {
+    text1 = `${JSON.stringify(desc?.['name'])}`
     text2 = `${JSON.stringify(desc?.['name'])}, ${JSON.stringify(
       desc?.['subregion']
     )}, ${JSON.stringify(desc?.['region'])}`
@@ -133,7 +144,6 @@ const SelectTo = ({ navigation }) => {
           name="chevron-thin-left"
           style={styles.iconbtn}
         />
-        <Button onPress={reverseGeocode} />
         <View style={styles.from}>
           <Flex
             style={{
@@ -144,18 +154,18 @@ const SelectTo = ({ navigation }) => {
           >
             <Entypo name="location" size={24} color="black" />
             <Flex style={{ marginLeft: 16 }}>
-              <TextInput
+              <Text
                 style={{ fontWeight: 'bold', lineHeight: 24 }}
-                placeholder="Điểm đến"
                 onChangeText={setTitle}
-              ></TextInput>
-              <TextInput
+              >
+                {text1}
+              </Text>
+              <Text
                 style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
-                placeholder="Địa chỉ chính xác"
                 onChangeText={setDesc}
               >
                 {text2}
-              </TextInput>
+              </Text>
             </Flex>
           </Flex>
           <MaterialIcons name="favorite" size={20} color="black" />
