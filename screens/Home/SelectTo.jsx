@@ -21,17 +21,19 @@ const SelectTo = ({ navigation }) => {
 
   const [title, setTitle] = useState()
   const [desc, setDesc] = useState()
-
-  // Function to handle marker press
-  const handleMarkerPress = (markerTitle, markerDesc) => {
-    setTitle(markerTitle)
-    setDesc(markerDesc)
-  }
-
   const [currentLocation, setCurrentLocation] = useState(null)
   const [initialRegion, setInitialRegion] = useState(null)
   const [location, setLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
+  const [markerPosition, setMarkerPosition] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
+  })
+
+  // const [pin, setPin] = useState({
+  //   latitude: currentLocation.latitude,
+  //   longitude: currentLocation.longitude,
+  // })
 
   useEffect(() => {
     const getLocation = async () => {
@@ -42,7 +44,7 @@ const SelectTo = ({ navigation }) => {
       }
 
       let location = await Location.getCurrentPositionAsync({})
-      setCurrentLocation(location.coords)
+      setCurrentLocation(location)
       setLocation(location)
       console.log('LocationCoord:')
       console.log(location)
@@ -66,6 +68,20 @@ const SelectTo = ({ navigation }) => {
 
     getLocation()
   }, [])
+  const handleMarkerDragEnd = async (e) => {
+    setMarkerPosition(e.nativeEvent.coordinate)
+    try {
+      const address = await Location.reverseGeocodeAsync({
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      })
+      setTitle(address[0])
+      setDesc(address[0])
+      console.log('Address:', address)
+    } catch (error) {
+      console.error('Error fetching address:', error)
+    }
+  }
 
   // const geocode = async () => {
   //   const geocodedLocation = await Location.geocodeAsync(title)
@@ -73,23 +89,12 @@ const SelectTo = ({ navigation }) => {
   //   console.log(geocodedLocation)
   // }
 
-  // const reverseGeocode = async () => {
-  //   const reverseGeocodeAddress = await Location.reverseGeocodeAsync({
-  //     longitude: location.coords.longitude,
-  //     latitude: location.coords.latitude,
-  //   })
-  //   setTitle(reverseGeocodeAddress[0])
-  //   setDesc(reverseGeocodeAddress[0])
-  //   console.log('Reverse:')
-  //   console.log(reverseGeocodeAddress)
-  // }
-
   let text1 = 'Waiting..'
   let text2 = 'Waiting..'
   if (errorMsg) {
     text2 = errorMsg
   } else if (location) {
-    text1 = `${JSON.stringify(desc?.['name'])}`
+    text1 = `${JSON.stringify(title?.['name'])}`
     text2 = `${JSON.stringify(desc?.['name'])}, ${JSON.stringify(
       desc?.['subregion']
     )}, ${JSON.stringify(desc?.['region'])}`
@@ -117,6 +122,7 @@ const SelectTo = ({ navigation }) => {
         {initialRegion && (
           <MapView
             ref={_map}
+            showsMyLocationButton={true}
             showUserLocation={true}
             followUserLocation={true}
             rotateEnabled={true}
@@ -130,10 +136,12 @@ const SelectTo = ({ navigation }) => {
             {currentLocation && (
               <Marker
                 coordinate={{
-                  latitude: currentLocation.latitude,
-                  longitude: currentLocation.longitude,
+                  latitude: currentLocation.coords.latitude,
+                  longitude: currentLocation.coords.longitude,
                 }}
                 draggable
+                // onDragEnd={handleMarkerDragEnd}
+                onDragEnd={handleMarkerDragEnd}
               />
             )}
           </MapView>
@@ -153,15 +161,15 @@ const SelectTo = ({ navigation }) => {
             }}
           >
             <Entypo name="location" size={24} color="black" />
-            <Flex style={{ marginLeft: 16 }}>
+            <Flex style={{ marginLeft: 16, width: 240 }}>
               <Text
-                style={{ fontWeight: 'bold', lineHeight: 24 }}
+                style={{ fontWeight: 'bold', lineHeight: 24, fontSize: 14 }}
                 onChangeText={setTitle}
               >
                 {text1}
               </Text>
               <Text
-                style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
+                style={{ fontSize: 12, color: 'rgba(0,0,0,0.6)' }}
                 onChangeText={setDesc}
               >
                 {text2}
