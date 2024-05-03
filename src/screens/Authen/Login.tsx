@@ -144,7 +144,7 @@ const LoginScreen = () => {
     <View
       style={[
         globalStyles.container,
-        { justifyContent: 'center', alignItems: 'center' },
+        { justifyContent: 'center', alignItems: 'center', padding: 20 },
       ]}
     >
       <InputComponent
