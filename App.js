@@ -1,35 +1,34 @@
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
-import AuthStack from './routes/AuthStack'
-import BottomTab from './routes/TabNavigator'
-import { Provider } from 'react-redux'
-import { store } from './store'
-// import Navigator from './routes/authStack'
-import SelectTo from './screens/Home/SelectTo'
-import SetFrom from './screens/Home/SetFrom'
-import SetTo from './screens/Home/SetTo'
-import HomeStack from './routes/HomeStack'
-import InfoOrder from './screens/Home/InfoOrder'
-import SearchDriver from './screens/Home/SearchDriver'
-import DriverComing from './screens/Home/DriverComing'
-import Complete from './screens/Home/Complete'
-import SetCenter from './screens/Home/SetCenter'
-import Order from './screens/Orders/Order'
-import MapComponent from './components/MapComponent'
-import AppRouters from './routes/AppRouters'
-import TabNavigator from './routes/TabNavigator'
-import Splash from './screens/Authen/Splash'
+import AuthStack from './src/routes/AuthStack'
+import Splash from './src/screens/Authen/Splash'
 import { useEffect, useState } from 'react'
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import MainNavigator from './src/routes/MainNavigator'
 
 export default function App() {
   const [isShowSplash, setIsShowSplash] = useState(true)
+
+  const [accesToken, setAccessToken] = useState('')
+
+  const { getItem, setItem } = useAsyncStorage('assetToken')
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsShowSplash(false)
     }, 1500)
     return () => clearTimeout(timeout)
   }, [])
+
+  useEffect(() => {
+    checkLogin()
+  }, [])
+
+  const checkLogin = async () => {
+    const token = await getItem()
+    token && setAccessToken(token)
+  }
 
   return (
     <>
@@ -42,7 +41,7 @@ export default function App() {
         <Splash />
       ) : (
         <NavigationContainer>
-          <AuthStack />
+          {accesToken ? <MainNavigator /> : <AuthStack />}
         </NavigationContainer>
       )}
     </>

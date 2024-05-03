@@ -1,7 +1,7 @@
-import {Lock, Sms} from 'iconsax-react-native';
-import React, {useEffect, useState} from 'react';
-import {Alert, Image, Switch} from 'react-native';
-import authenticationAPI from '../../apis/authApi';
+import { Lock, Sms } from 'iconsax-react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, Button, Image, Switch, View } from 'react-native'
+import authenticationAPI from '../../apis/authApi'
 import {
   ButtonComponent,
   ContainerComponent,
@@ -10,13 +10,13 @@ import {
   SectionComponent,
   SpaceComponent,
   TextComponent,
-} from '../../components';
-import {appColors} from '../../constants/appColors';
-import {Validate} from '../../utils/validate';
-import {useDispatch} from 'react-redux';
-import {addAuth} from '../../redux/reducers/authReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text } from '@react-native-material/core';
+} from '../../components'
+import { appColors } from '../../constants/appColors'
+import { Validate } from '../../utils/validate'
+import { useDispatch } from 'react-redux'
+import { addAuth } from '../../redux/reducers/authReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Text } from '@react-native-material/core'
 
 // const LoginScreen = ({navigation}: any) => {
 //   const [email, setEmail] = useState('');
@@ -135,17 +135,21 @@ import { Text } from '@react-native-material/core';
 //     </ContainerComponent>
 //   );
 // };
-const LoginScreen = () =>{
+const LoginScreen = () => {
   return (
-    <Text>aaaaaaaa</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>LoginScreen</Text>
+      <Button
+        title="Login"
+        onPress={async () =>
+          await AsyncStorage.setItem('accetToken', 'fafafafaf')
+        }
+      />
+    </View>
   )
 }
 
-export default LoginScreen;
-
-
-
-
+export default LoginScreen
 
 // import { Flex, Text, TextInput, Button } from '@react-native-material/core'
 // import React, { useState, ReactNode } from 'react'
