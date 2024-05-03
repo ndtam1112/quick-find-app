@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import AuthStack from './routes/AuthStack'
 import BottomTab from './routes/TabNavigator'
 import { Provider } from 'react-redux'
@@ -25,13 +25,26 @@ import { useEffect, useState } from 'react'
 export default function App() {
   const [isShowSplash, setIsShowSplash] = useState(true)
   useEffect(() => {
-    setIsShowSplash(false)
-  }, 1500)
-  return isShowSplash ? (
-    <Splash />
-  ) : (
-    <NavigationContainer>
-      <AuthStack />
-    </NavigationContainer>
+    const timeout = setTimeout(() => {
+      setIsShowSplash(false)
+    }, 1500)
+    return () => clearTimeout(timeout)
+  }, [])
+
+  return (
+    <>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      {isShowSplash ? (
+        <Splash />
+      ) : (
+        <NavigationContainer>
+          <AuthStack />
+        </NavigationContainer>
+      )}
+    </>
   )
 }

@@ -17,7 +17,7 @@ const AuthStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="ForeWord" component={ForeWord} />
+      {/* <Stack.Screen name="ForeWord" component={ForeWord} /> */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp2" component={SignUp_2} />
     </Stack.Navigator>

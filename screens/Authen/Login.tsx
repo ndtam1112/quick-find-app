@@ -137,7 +137,7 @@ import { Text } from '@react-native-material/core';
 // };
 const LoginScreen = () =>{
   return (
-    <Text>a</Text>
+    <Text>aaaaaaaa</Text>
   )
 }
 

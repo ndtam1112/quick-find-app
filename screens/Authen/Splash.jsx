@@ -1,7 +1,10 @@
-import { Flex, Text } from '@react-native-material/core'
+import { ActivityIndicator, Flex, Text } from '@react-native-material/core'
 import React, { useEffect } from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image, ImageBackground, StyleSheet } from 'react-native'
 import ForeWord from './ForeWord'
+import { appInfo } from '../../constants/appInfo'
+import { SpaceComponent } from '../../components'
+import { appColors } from '../../constants/appColors'
 
 const styles = StyleSheet.create({
   container: {
@@ -20,16 +23,19 @@ const styles = StyleSheet.create({
 })
 
 const Splash = () => {
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     return <ForeWord />
-  //   }, 1000)
-  // }, [])
-
   return (
-    <Flex style={styles.container}>
-      <Image source={require('../../assets/splash.png')} style={styles.img} />
-    </Flex>
+    <ImageBackground
+      source={require('../../assets/splash.png')}
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      imageStyle={{ flex: 1 }}
+    >
+      {/* <Image
+        source={require('../../assets/splash.png')}
+        style={{ width: appInfo.sizes.WIDTH * 0.7, resizeMode: 'contain' }}
+      /> */}
+      <SpaceComponent height={180} />
+      <ActivityIndicator color={appColors.gray} size={22} />
+    </ImageBackground>
   )
 }
 
