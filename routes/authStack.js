@@ -8,8 +8,9 @@ import Login from '../screens/Authen/Login'
 import SignUp_3 from '../screens/Authen/SignUp_3'
 import React from 'react'
 
-const Stack = createStackNavigator()
 const AuthStack = () => {
+  const Stack = createStackNavigator()
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -17,9 +18,8 @@ const AuthStack = () => {
       }}
     >
       <Stack.Screen name="ForeWord" component={ForeWord} />
-      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp2" component={SignUp_2} />
-      <Stack.Screen name="ShareLocation" component={ShareLocation} />
     </Stack.Navigator>
   )
 }

@@ -1,6 +1,6 @@
 import { Entypo, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 import { Button, Flex, Text } from '@react-native-material/core'
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import {
   Image,
   Keyboard,
@@ -10,42 +10,104 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native'
+import centerAround from '../../global/data.js'
+import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps'
+import * as Location from 'expo-location'
 
 const SelectFrom = ({ navigation }) => {
-  const [latlng, setLatLng] = useState({})
   const _map = useRef(1)
-  const checkPermission = async () => {
-    const hasPermission = await Location.requestForegroundPermissionsAsync()
-    if (hasPermission.status === 'granted') {
-      const permission = await askPermission()
-      return permission
-    }
-    return true
-  }
-  const askPermission = async () => {
-    const permission = await Location.requestForegroundPermissionsAsync()
-    return permission.status === 'granted'
-  }
-  const getLocation = async () => {
-    try {
-      const { granted } = await Location.requestForegroundPermissionsAsync()
-      if (!graned) return
-      const {
-        coords: { latitude, longitude },
-      } = await Location.getCurrentPositionAsync()
-      setLatLng({ latitude: latitude, longitude: longitude })
-    } catch (err) {}
-  }
-  useEffect(() => {
-    checkPermission()
-    getLocation()
-    console.log(latlng), []
+
+  const [title, setTitle] = useState()
+  const [desc, setDesc] = useState()
+  const [currentLocation, setCurrentLocation] = useState(null)
+  const [initialRegion, setInitialRegion] = useState(null)
+  const [location, setLocation] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [markerPosition, setMarkerPosition] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
   })
+
+  // const [pin, setPin] = useState({
+  //   latitude: currentLocation.latitude,
+  //   longitude: currentLocation.longitude,
+  // })
+
+  useEffect(() => {
+    const getLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied')
+        return
+      }
+
+      let location = await Location.getCurrentPositionAsync({})
+      setCurrentLocation(location)
+      setLocation(location)
+      console.log('LocationCoord:')
+      console.log(location)
+
+      setInitialRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      })
+
+      let reverseGeocodeAddress = await Location.reverseGeocodeAsync({
+        longitude: location.coords.longitude,
+        latitude: location.coords.latitude,
+      })
+      setTitle(reverseGeocodeAddress[0])
+      setDesc(reverseGeocodeAddress[0])
+      console.log('Reverse:')
+      console.log(reverseGeocodeAddress)
+    }
+
+    getLocation()
+  }, [])
+  const handleMarkerDragEnd = async (e) => {
+    setMarkerPosition(e.nativeEvent.coordinate)
+    try {
+      const address = await Location.reverseGeocodeAsync({
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      })
+      setTitle(address[0])
+      setDesc(address[0])
+      console.log('Address:', address)
+    } catch (error) {
+      console.error('Error fetching address:', error)
+    }
+  }
+
+  // const geocode = async () => {
+  //   const geocodedLocation = await Location.geocodeAsync(title)
+  //   console.log('Geocode:')
+  //   console.log(geocodedLocation)
+  // }
+
+  let text1 = 'Waiting..'
+  let text2 = 'Waiting..'
+  if (errorMsg) {
+    text2 = errorMsg
+  } else if (location) {
+    text1 = `${JSON.stringify(title?.['name'])}`
+    text2 = `${JSON.stringify(desc?.['name'])}, ${JSON.stringify(
+      desc?.['subregion']
+    )}, ${JSON.stringify(desc?.['region'])}`
+  }
+
+  onRegionChange = (region) => {
+    this.setState({ region })
+  }
 
   const pressSetCenter = () => {
     navigation.navigate('SetCenter')
   }
+
   const pressHanderBack = () => {
     navigation.goBack()
   }
@@ -56,29 +118,41 @@ const SelectFrom = ({ navigation }) => {
       }}
     >
       <View style={styles.container}>
-        <MapView
-          ref={_map}
-          showUserLoaction={true}
-          followUserLocation={true}
-          rotateEnabled={true}
-          zoomEnabled={true}
-          toolbarEnabled={true}
-          provider={PROVIDER_GOOGLE}
-          style={styles.bximg}
-        >
-          {/* {centerArounds((item, index) => (
-            <MapView.Marker coordinate={item} key={index.toString()}>
-              <Image
-                source={require('../../assets/ambulance.png')}
-                resizeMode="cover"
+        {/* Lấy vị trí hiện tại: https://medium.com/@Sarmilasivaraja/integrating-real-time-map-with-user-location-in-a-react-native-app-d0bef63ba3b2 */}
+        {initialRegion && (
+          <MapView
+            ref={_map}
+            showsMyLocationButton={true}
+            showUserLocation={true}
+            followUserLocation={true}
+            rotateEnabled={true}
+            zoomEnabled={true}
+            toolbarEnabled={true}
+            provider={PROVIDER_GOOGLE}
+            style={styles.bximg}
+            initialRegion={initialRegion}
+            loadingEnabled
+          >
+            {currentLocation && (
+              <Marker
+                coordinate={{
+                  latitude: currentLocation.coords.latitude,
+                  longitude: currentLocation.coords.longitude,
+                }}
+                draggable
+                // onDragEnd={handleMarkerDragEnd}
+                onDragEnd={handleMarkerDragEnd}
               />
-            </MapView.Marker>
-          ))} */}
-        </MapView>
-        <TouchableOpacity onPress={pressHanderBack}>
-          <Entypo name="chevron-thin-left" style={styles.iconbtn} />
-        </TouchableOpacity>
-        <Flex style={styles.from}>
+            )}
+          </MapView>
+        )}
+
+        <Entypo
+          onPress={pressHanderBack}
+          name="chevron-thin-left"
+          style={styles.iconbtn}
+        />
+        <View style={styles.from}>
           <Flex
             style={{
               flexDirection: 'row',
@@ -86,31 +160,29 @@ const SelectFrom = ({ navigation }) => {
               alignItems: 'center',
             }}
           >
-            <FontAwesome5 name="map-pin" size={24} color="black" />
-            <Flex style={{ marginLeft: 16 }}>
-              <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                Địa chỉ
+            <Entypo name="location" size={24} color="black" />
+            <Flex style={{ marginLeft: 16, width: 240 }}>
+              <Text
+                style={{ fontWeight: 'bold', lineHeight: 24, fontSize: 14 }}
+                onChangeText={setTitle}
+              >
+                {text1}
               </Text>
-              <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                Địa chỉ chính xác
+              <Text
+                style={{ fontSize: 12, color: 'rgba(0,0,0,0.6)' }}
+                onChangeText={setDesc}
+              >
+                {text2}
               </Text>
             </Flex>
           </Flex>
           <MaterialIcons name="favorite" size={20} color="black" />
-        </Flex>
+        </View>
 
-        <TextInput
-          multiline={true}
-          style={styles.txinput}
-          cursorColor={'#485563'}
-          selectionColor={'#29323C'}
-          variant="standard"
-          placeholder="Ghi chú (nếu có)"
-        />
         <TouchableOpacity onPress={pressSetCenter}>
-          <Flex style={styles.btn}>
+          <View style={styles.btn}>
             <Entypo name="direction" size={24} color="black" />
-          </Flex>
+          </View>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
@@ -123,18 +195,26 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '100%',
   },
   iconbtn: {
     position: 'absolute',
-    bottom: 720,
+    bottom: 760,
     left: 24,
     color: '#111',
     fontSize: 20,
   },
   bximg: {
-    width: '100%',
-    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // width: '100%',
+    // height: '100%',
   },
   img: {
     resizeMode: 'cover',
@@ -144,8 +224,8 @@ const styles = StyleSheet.create({
   from: {
     width: '80%',
     position: 'absolute',
-    bottom: 150,
-    left: 32,
+    bottom: 120,
+    left: 40,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -157,8 +237,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     position: 'absolute',
-    right: 24,
-    bottom: 64,
+    left: 80,
+    top: 320,
     paddingLeft: 32,
     paddingRight: 32,
     paddingTop: 16,
@@ -176,7 +256,11 @@ const styles = StyleSheet.create({
 
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+
     backgroundColor: 'rgba(0,0,0,0.1)',
   },
 })

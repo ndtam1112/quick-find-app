@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { StyleSheet, Text, View } from 'react-native'
 import AuthStack from './routes/AuthStack'
-import BottomTab from './routes/BottomTab'
+import BottomTab from './routes/TabNavigator'
 import { Provider } from 'react-redux'
 import { store } from './store'
 // import Navigator from './routes/authStack'
@@ -17,13 +17,21 @@ import Complete from './screens/Home/Complete'
 import SetCenter from './screens/Home/SetCenter'
 import Order from './screens/Orders/Order'
 import MapComponent from './components/MapComponent'
+import AppRouters from './routes/AppRouters'
+import TabNavigator from './routes/TabNavigator'
+import Splash from './screens/Authen/Splash'
+import { useEffect, useState } from 'react'
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <BottomTab />
-      </NavigationContainer>
-    </Provider>
+  const [isShowSplash, setIsShowSplash] = useState(true)
+  useEffect(() => {
+    setIsShowSplash(false)
+  }, 1500)
+  return isShowSplash ? (
+    <Splash />
+  ) : (
+    <NavigationContainer>
+      <AuthStack />
+    </NavigationContainer>
   )
 }

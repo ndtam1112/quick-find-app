@@ -160,7 +160,7 @@ const SelectTo = ({ navigation }) => {
               alignItems: 'center',
             }}
           >
-            <Entypo name="location" size={24} color="black" />
+            <FontAwesome5 name="map-pin" size={24} color="black" />
             <Flex style={{ marginLeft: 16, width: 240 }}>
               <Text
                 style={{ fontWeight: 'bold', lineHeight: 24, fontSize: 14 }}

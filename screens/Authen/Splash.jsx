@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const splash = () => {
+const Splash = () => {
   // useEffect(() => {
   //   setTimeout(() => {
   //     return <ForeWord />
@@ -33,4 +33,4 @@ const splash = () => {
   )
 }
 
-export default splash
+export default Splash
