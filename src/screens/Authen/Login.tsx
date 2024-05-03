@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux'
 import { addAuth } from '../../redux/reducers/authReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Text } from '@react-native-material/core'
+import { globalStyles } from '../../styles/globalStyles'
 
 // const LoginScreen = ({navigation}: any) => {
 //   const [email, setEmail] = useState('');
@@ -135,15 +136,31 @@ import { Text } from '@react-native-material/core'
 //     </ContainerComponent>
 //   );
 // };
+
 const LoginScreen = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>LoginScreen</Text>
-      <Button
-        title="Login"
-        onPress={async () =>
-          await AsyncStorage.setItem('accetToken', 'fafafafaf')
-        }
+    <View
+      style={[
+        globalStyles.container,
+        { justifyContent: 'center', alignItems: 'center' },
+      ]}
+    >
+      <InputComponent
+        value={email}
+        placeholder="Email"
+        onChange={(val) => setEmail(val)}
+        allowClear
+        affix={<Sms size={22} color={appColors.gray} />}
+      />
+      <InputComponent
+        value={password}
+        placeholder="Password"
+        onChange={(val) => setPassword(val)}
+        isPassword
+        allowClear
+        affix={<Lock size={22} color={appColors.gray} />}
       />
     </View>
   )
