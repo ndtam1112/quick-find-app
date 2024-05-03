@@ -141,12 +141,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   return (
-    <View
-      style={[
-        globalStyles.container,
-        { justifyContent: 'center', alignItems: 'center', padding: 20 },
-      ]}
-    >
+    <ContainerComponent isImageBackground>
       <InputComponent
         value={email}
         placeholder="Email"
@@ -162,7 +157,7 @@ const LoginScreen = () => {
         allowClear
         affix={<Lock size={22} color={appColors.gray} />}
       />
-    </View>
+    </ContainerComponent>
   )
 }
 
