@@ -1,20 +1,20 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import React, {useState} from 'react';
-import {LoginManager, Profile, Settings} from 'react-native-fbsdk-next';
-import {useDispatch} from 'react-redux';
-import authenticationAPI from '../../../apis/authApi';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import React, { useState } from 'react'
+import { LoginManager, Profile, Settings } from 'react-native-fbsdk-next'
+import { useDispatch } from 'react-redux'
+import authenticationAPI from '../../../apis/authApi'
 import {
   ButtonComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
-} from '../../../components';
-import {appColors} from '../../../constants/appColors';
-import {fontFamilies} from '../../../constants/fontFamilies';
-import {LoadingModal} from '../../../modals';
-import {addAuth} from '../../../redux/reducers/authReducer';
-import { Text } from '@react-native-material/core';
+} from '../../../components'
+import { appColors } from '../../../constants/appColors'
+import { LoadingModal } from '../../../modals'
+import { addAuth } from '../../../redux/reducers/authReducer'
+import { Button, Text } from '@react-native-material/core'
+import { StyleSheet } from 'react-native'
 
 // GoogleSignin.configure({
 //   webClientId:
@@ -115,15 +115,40 @@ import { Text } from '@react-native-material/core';
 //         icon={require('../../../assets/google.png')}
 //       />
 
-      
 //       <LoadingModal visible={isLoading} />
 //     </SectionComponent>
 //   );
 // };
-const SocialLogin = () =>{
+const SocialLogin = () => {
   return (
-    <Text>a</Text>
+    <SectionComponent>
+      <Text
+        style={{ textAlign: 'center', fontSize: 16 }}
+        color={appColors.gray4}
+      >
+        OR
+      </Text>
+      <SpaceComponent height={16} />
+      <Button style={[styles.btn]} title="Login with Google " />
+      {/* <ButtonComponent
+        type="primary"
+        color={appColors.white}
+        textColor={appColors.text}
+        text="Login with Google"
+        iconFlex="left"
+        icon={require('../../../assets/google.png')}
+      /> */}
+    </SectionComponent>
   )
 }
 
-export default SocialLogin;
+export default SocialLogin
+
+const styles = StyleSheet.create({
+  btn: {
+    backgroundColor: '#00629D',
+    bottom: -12,
+    marginLeft: 24,
+    marginRight: 24,
+  },
+})

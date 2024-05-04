@@ -1,5 +1,5 @@
-import {View, Text, TextInput, StyleSheet} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ButtonComponent,
   ContainerComponent,
@@ -7,16 +7,15 @@ import {
   SectionComponent,
   SpaceComponent,
   TextComponent,
-} from '../../components';
-import {ArrowRight} from 'iconsax-react-native';
-import {appColors} from '../../constants/appColors';
-import {fontFamilies} from '../../constants/fontFamilies';
-import {globalStyles} from '../../styles/globalStyles';
-import authenticationAPI from '../../apis/authApi';
-import {LoadingModal} from '../../modals';
-import {useDispatch} from 'react-redux';
-import {addAuth} from '../../redux/reducers/authReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from '../../components'
+import { ArrowRight } from 'iconsax-react-native'
+import { appColors } from '../../constants/appColors'
+import { globalStyles } from '../../styles/globalStyles'
+import authenticationAPI from '../../apis/authApi'
+import { LoadingModal } from '../../modals'
+import { useDispatch } from 'react-redux'
+import { addAuth } from '../../redux/reducers/authReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // const Verification = ({navigation, route}: any) => {
 //   const {code, email, password, username} = route.params;
@@ -238,13 +237,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //     </ContainerComponent>
 //   );
 // };
-const Verification = () =>{
-  return (
-    <Text>a</Text>
-  )
+const Verification = () => {
+  return <Text>a</Text>
 }
 
-export default Verification;
+export default Verification
 
 const styles = StyleSheet.create({
   input: {
@@ -256,7 +253,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 24,
-    fontFamily: fontFamilies.bold,
     textAlign: 'center',
   },
-});
+})

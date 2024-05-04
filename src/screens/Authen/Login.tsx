@@ -18,6 +18,7 @@ import { addAuth } from '../../redux/reducers/authReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Text } from '@react-native-material/core'
 import { globalStyles } from '../../styles/globalStyles'
+import SocialLogin from './components/SocialLogin'
 
 // const LoginScreen = ({navigation}: any) => {
 //   const [email, setEmail] = useState('');
@@ -137,26 +138,121 @@ import { globalStyles } from '../../styles/globalStyles'
 //   );
 // };
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isRemember, setIsRemember] = useState(true)
+  const [isDisable, setIsDisable] = useState(true)
+
+  // const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   const emailValidation = Validate.email(email)
+
+  //   if (!email || !password || !emailValidation) {
+  //     setIsDisable(true)
+  //   } else {
+  //     setIsDisable(false)
+  //   }
+  // }, [email, password])
+
+  // const handleLogin = async () => {
+  //   const emailValidation = Validate.email(email)
+  //   if (emailValidation) {
+  //     try {
+  //       const res = await authenticationAPI.HandleAuthentication(
+  //         '/login',
+  //         { email, password },
+  //         'post'
+  //       )
+
+  //       dispatch(addAuth(res.data))
+
+  //       await AsyncStorage.setItem(
+  //         'auth',
+  //         isRemember ? JSON.stringify(res.data) : email
+  //       )
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   } else {
+  //     Alert.alert('Email is not correct!!!!')
+  //   }
+  // }
   return (
     <ContainerComponent isImageBackground>
-      <InputComponent
-        value={email}
-        placeholder="Email"
-        onChange={(val) => setEmail(val)}
-        allowClear
-        affix={<Sms size={22} color={appColors.gray} />}
-      />
-      <InputComponent
-        value={password}
-        placeholder="Password"
-        onChange={(val) => setPassword(val)}
-        isPassword
-        allowClear
-        affix={<Lock size={22} color={appColors.gray} />}
-      />
+      <SectionComponent
+        styles={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 75,
+        }}
+      >
+        <Image
+          source={require('../../assets/fore-1.png')}
+          style={{
+            width: 162,
+            height: 114,
+            marginBottom: 30,
+          }}
+        />
+      </SectionComponent>
+      <SectionComponent>
+        <TextComponent
+          styles={{ fontWeight: 'bold' }}
+          size={24}
+          title
+          text="Đăng nhập"
+        />
+        <SpaceComponent height={21} />
+        <InputComponent
+          value={email}
+          placeholder="Email"
+          onChange={(val) => setEmail(val)}
+          allowClear
+          affix={<Sms size={22} color={appColors.gray} />}
+        />
+        <InputComponent
+          value={password}
+          placeholder="Password"
+          onChange={(val) => setPassword(val)}
+          isPassword
+          allowClear
+          affix={<Lock size={22} color={appColors.gray} />}
+        />
+        <RowComponent justify="space-between">
+          <RowComponent onPress={() => setIsRemember(!isRemember)}>
+            <Switch
+              trackColor={{ true: appColors.primary }}
+              thumbColor={appColors.white}
+              value={isRemember}
+              onChange={() => setIsRemember(!isRemember)}
+            />
+            <SpaceComponent width={4} />
+            <TextComponent text="Remember me" />
+          </RowComponent>
+          <ButtonComponent
+            text="Forgot Password?"
+            onPress={() => navigation.navigate('ForgotPassword')}
+            type="text"
+          />
+        </RowComponent>
+      </SectionComponent>
+      <SpaceComponent height={16} />
+      <SectionComponent>
+        <ButtonComponent text="SIGN IN" type="primary" />
+      </SectionComponent>
+      <SocialLogin />
+      <SectionComponent>
+        <RowComponent justify="center">
+          <TextComponent text="Don’t have an account? " />
+          <ButtonComponent
+            type="link"
+            text="Đăng ký"
+            onPress={() => navigation.navigate('SignUp')}
+          />
+        </RowComponent>
+      </SectionComponent>
     </ContainerComponent>
   )
 }

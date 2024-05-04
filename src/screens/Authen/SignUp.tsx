@@ -1,87 +1,190 @@
-import { Flex, Text, TextInput, Button } from '@react-native-material/core'
-import React, { useState, ReactNode } from 'react'
-import { Image, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import { StyleSheet } from 'react-native'
-import { Entypo } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
-import { globalStyle } from '../../styles/global'
+import { Lock, Sms, User } from 'iconsax-react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, Button, Image, Switch, View } from 'react-native'
+import authenticationAPI from '../../apis/authApi'
+import {
+  ButtonComponent,
+  ContainerComponent,
+  InputComponent,
+  RowComponent,
+  SectionComponent,
+  SpaceComponent,
+  TextComponent,
+} from '../../components'
+import { appColors } from '../../constants/appColors'
+import { Validate } from '../../utils/validate'
+import { addAuth } from '../../redux/reducers/authReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Text } from '@react-native-material/core'
+import { globalStyles } from '../../styles/globalStyles'
+import SocialLogin from './components/SocialLogin'
 
-const styles = StyleSheet.create({
-  container_2: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 60,
-    width: '90%',
-  },
-  img: {
-    width: 50,
-    height: 50,
-  },
-  btn: {
-    backgroundColor: '#00629D',
-    borderRadius: 30,
-    marginTop: 16,
-  },
-})
-
-interface Props {
-  value: string;
-  onChange: (val: string) => void;
-  affix?: ReactNode;
-  placeholder?: string;
-  suffix?: ReactNode;
-  isPassword?: boolean;
-  allowClear?: boolean
+const initValue = {
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
 }
 
-const SignUp = ( {navigation}, props: Props ) => {
-  const {value, onChange, affix, suffix, placeholder, isPassword, allowClear} = props;
+const SignUpScreen = ({ navigation }: any) => {
+  const [values, setValues] = useState(initValue)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<any>()
+  const [isDisable, setIsDisable] = useState(true)
 
-  const [username, setUsername] = useState('')
-  const pressHander = () => {
-    navigation.navigate('SignUp2')
-  }
-  const pressHanderBack = () => {
-    navigation.goBack()
+  const handleChangeValue = (key: string, value: string) => {
+    const data: any = { ...values }
+
+    data[`${key}`] = value
+
+    setValues(data)
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss()
-      }}
-    >
-      <Flex style={globalStyle.container}>
-        <Flex style={styles.container_2}>
-          <Entypo
-            onClick={pressHanderBack}
-            name="chevron-thin-left"
-            style={globalStyle.iconbtn}
-          />
-          <Image
-            source={require('../../assets/adaptive-icon.png')}
-            style={styles.img}
-          />
-          <AntDesign name="questioncircleo" style={globalStyle.iconbtn} />
-        </Flex>
-        <Text style={globalStyle.h3}>
-          Nhập username của bạn để đăng nhập hoặc đăng ký tài khoản
-        </Text>
-        <TextInput
-          cursorColor={'#485563'}
-          selectionColor={'#29323C'}
-          value={username}
-          variant="standard"
-          placeholder="Username"
-          onChangeText={val => setUsername(val)}
-          style={globalStyle.txinput}
+    <ContainerComponent isImageBackground back isScroll>
+      <SectionComponent>
+        <TextComponent
+          styles={{ fontWeight: 'bold' }}
+          size={24}
+          title
+          text="Đăng ký"
         />
-        <Button style={styles.btn} onPress={pressHander} title="Tiếp tục" />
-      </Flex>
-    </TouchableWithoutFeedback>
+        <SpaceComponent height={21} />
+        <InputComponent
+          value={values.username}
+          placeholder="Fullname"
+          onChange={(val) => handleChangeValue('username', val)}
+          allowClear
+          affix={<User size={22} color={appColors.gray} />}
+        />
+        <InputComponent
+          value={values.email}
+          placeholder="abc@email.com"
+          onChange={(val) => handleChangeValue('email', val)}
+          allowClear
+          affix={<Sms size={22} color={appColors.gray} />}
+        />
+        <InputComponent
+          value={values.password}
+          placeholder="Password"
+          onChange={(val) => handleChangeValue('password', val)}
+          isPassword
+          allowClear
+          affix={<Lock size={22} color={appColors.gray} />}
+        />
+        <InputComponent
+          value={values.confirmPassword}
+          placeholder="Confirm Password"
+          onChange={(val) => handleChangeValue('confirmPassword', val)}
+          isPassword
+          allowClear
+          affix={<Lock size={22} color={appColors.gray} />}
+        />
+      </SectionComponent>
+      <SpaceComponent height={16} />
+      <SectionComponent styles={{ justifyContent: 'center' }}>
+        <ButtonComponent text="SIGN UP" type="primary" />
+      </SectionComponent>
+      <SocialLogin />
+      <SectionComponent>
+        <RowComponent justify="center">
+          <TextComponent text="Bạn đã có tài khoản? " />
+          <ButtonComponent
+            type="link"
+            text="Đăng nhập"
+            onPress={() => navigation.navigate('Login')}
+          />
+        </RowComponent>
+      </SectionComponent>
+    </ContainerComponent>
   )
 }
 
-export default SignUp
+export default SignUpScreen
+
+// import { Flex, Text, TextInput, Button } from '@react-native-material/core'
+// import React, { useState, ReactNode } from 'react'
+// import { Image, Keyboard, TouchableWithoutFeedback } from 'react-native'
+// import { StyleSheet } from 'react-native'
+// import { Entypo } from '@expo/vector-icons'
+// import { AntDesign } from '@expo/vector-icons'
+// import { globalStyle } from '../../styles/global'
+// import { Link } from '@mui/material'
+
+// const styles = StyleSheet.create({
+//   container: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     justifyContent: 'flex-start',
+//     width: '80%',
+//   },
+//   container_2: {
+//     display: 'flex',
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     height: 60,
+//     width: '90%',
+//   },
+//   img: {
+//     width: 50,
+//     height: 50,
+//   },
+//   btn: {
+//     backgroundColor: '#00629D',
+//     borderRadius: 30,
+//     marginTop: 16,
+//   },
+// })
+
+// interface Props {
+//   value: string;
+//   onChange: (val: string) => void;
+//   affix?: ReactNode;
+//   placeholder?: string;
+//   suffix?: ReactNode;
+//   isPassword?: boolean;
+//   allowClear?: boolean
+// }
+
+// const Login = (props: Props) => {
+//   const {value, onChange, affix, suffix, placeholder, isPassword, allowClear} = props;
+
+//   const [username, setUserName] = useState('')
+//   const [isShowPass, setIsShowPass] = useState(isPassword ?? false)
+
+//   return (
+//     <TouchableWithoutFeedback
+//       onPress={() => {
+//         Keyboard.dismiss()
+//       }}
+//     >
+//       <Flex style={globalStyle.container}>
+//         <Flex style={styles.container_2}>
+//           <Entypo name="chevron-thin-left" style={globalStyle.iconbtn} />
+//           <Image
+//             source={require('../../assets/splash.png')}
+//             style={styles.img}
+//           />
+//           <AntDesign name="questioncircleo" style={globalStyle.iconbtn} />
+//         </Flex>
+//         <Text style={globalStyle.h3}>Welcome back {username}</Text>
+//         <Flex style={styles.container}>
+//           <Text style={globalStyle.label}>Username</Text>
+//           <Text>ndtam</Text>
+//         </Flex>
+//         <TextInput
+//           cursorColor={'#485563'}
+//           selectionColor={'#29323C'}
+//           variant="standard"
+//           placeholder="Password"
+//           onChangeText={(val) => setUserName(val)}
+//           style={globalStyle.txinput}
+//         />
+//         <Button style={styles.btn} title="Đăng nhập" />
+//       </Flex>
+//     </TouchableWithoutFeedback>
+//   )
+// }
+
+// export default Login

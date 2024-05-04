@@ -7,6 +7,8 @@ import ShareLocation from '../screens/Authen/ShareLocation'
 import Login from '../screens/Authen/Login'
 import SignUp_3 from '../screens/Authen/SignUp_3'
 import React from 'react'
+import ForgotPassword from '../screens/Authen/ForgotPassword'
+import Verification from '../screens/Authen/Verification'
 
 const AuthStack = () => {
   const Stack = createStackNavigator()
@@ -19,7 +21,9 @@ const AuthStack = () => {
     >
       <Stack.Screen name="ForeWord" component={ForeWord} />
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp2" component={SignUp_2} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="Verification" component={Verification} />
     </Stack.Navigator>
   )
 }
