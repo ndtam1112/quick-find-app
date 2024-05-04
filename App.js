@@ -11,28 +11,6 @@ import AppRouters from './src/routes/AppRouters'
 import store from './src/redux/stores'
 
 export default function App() {
-  const [isShowSplash, setIsShowSplash] = useState(true)
-
-  // const [accesToken, setAccessToken] = useState('')
-
-  // const { getItem, setItem } = useAsyncStorage('assetToken')
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsShowSplash(false)
-    }, 1500)
-    return () => clearTimeout(timeout)
-  }, [])
-
-  // useEffect(() => {
-  //   checkLogin()
-  // }, [])
-
-  // const checkLogin = async () => {
-  //   const token = await getItem()
-  //   token && setAccessToken(token)
-  // }
-
   return (
     <>
       <StatusBar
@@ -41,13 +19,9 @@ export default function App() {
         translucent
       />
       <Provider store={store}>
-        {isShowSplash ? (
-          <Splash />
-        ) : (
-          <NavigationContainer>
-            <AppRouters />
-          </NavigationContainer>
-        )}
+        <NavigationContainer>
+          <AppRouters />
+        </NavigationContainer>
       </Provider>
     </>
   )

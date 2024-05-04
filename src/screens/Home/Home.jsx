@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { EvilIcons } from '@expo/vector-icons'
 import { globalStyle } from '../../styles/global'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { useDispatch, useSelector } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { authSelector, removeAuth } from '../../redux/reducers/authReducer'
 
 const styles = StyleSheet.create({
   container: {
@@ -79,6 +82,9 @@ const styles = StyleSheet.create({
 })
 
 const Home = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const auth = useSelector(authSelector)
+
   const pressBookCar = () => {
     navigation.navigate('SetTo')
   }
@@ -163,6 +169,24 @@ const Home = ({ navigation }) => {
                 />
               </Flex>
               <Text style={{ marginTop: 4 }}>Đặt xe</Text>
+            </Flex>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={async () => {
+              await AsyncStorage.setItem('auth', auth.email)
+              dispatch(removeAuth({}))
+            }}
+          >
+            <Flex style={styles.signout}>
+              <AntDesign
+                name="logout"
+                size={24}
+                color="black"
+                style={{ marginRight: 16 }}
+              />
+              <Text style={{ fontWeight: '600', lineHeight: 32 }}>
+                Đăng xuất
+              </Text>
             </Flex>
           </TouchableOpacity>
         </Flex>

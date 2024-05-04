@@ -12,6 +12,7 @@ import { Entypo } from '@expo/vector-icons'
 import { SimpleLineIcons } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { removeAuth } from '../../redux/reducers/authReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Setting = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -142,7 +143,12 @@ const Setting = ({ navigation }) => {
           </Flex>
         </TouchableOpacity>
       </ScrollView>
-      <TouchableOpacity onPress={() => dispatch(removeAuth)}>
+      <TouchableOpacity
+        onPress={async () => {
+          await AsyncStorage.clear()
+          dispatch(removeAuth)
+        }}
+      >
         <Flex style={styles.signout}>
           <AntDesign
             name="logout"

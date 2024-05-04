@@ -21,6 +21,12 @@ import SocialLogin from './components/SocialLogin'
 import { LoadingModal } from '../../modals'
 import { useDispatch } from 'react-redux'
 
+interface ErrorMessages {
+  email: string
+  password: string
+  confirmPassword: string
+}
+
 const initValue = {
   username: '',
   email: '',
@@ -37,10 +43,21 @@ const SignUpScreen = ({ navigation }: any) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (values.email || values.password) {
-      setErrorMessage('')
+    if (
+      !errorMessage ||
+      (errorMessage &&
+        (errorMessage.email ||
+          errorMessage.password ||
+          errorMessage.confirmPassword)) ||
+      !values.email ||
+      !values.password ||
+      !values.confirmPassword
+    ) {
+      setIsDisable(true)
+    } else {
+      setIsDisable(false)
     }
-  }, [values.email, values.password])
+  }, [errorMessage, values])
 
   const handleChangeValue = (key: string, value: string) => {
     const data: any = { ...values }
@@ -50,48 +67,85 @@ const SignUpScreen = ({ navigation }: any) => {
     setValues(data)
   }
 
+  const formValidator = (key: string) => {
+    const data = { ...errorMessage }
+    let message = ``
+
+    switch (key) {
+      case 'email':
+        if (!values.email) {
+          message = `Email is required!!!`
+        } else if (!Validate.email(values.email)) {
+          message = 'Email is not invalid!!'
+        } else {
+          message = ''
+        }
+
+        break
+
+      case 'password':
+        message = !values.password ? `Password is required!!!` : ''
+        break
+
+      case 'confirmPassword':
+        if (!values.confirmPassword) {
+          message = `Please type confirm password!!`
+        } else if (values.confirmPassword !== values.password) {
+          message = 'Password is not match!!!'
+        } else {
+          message = ''
+        }
+
+        break
+    }
+
+    data[`${key}`] = message
+
+    setErrorMessage(data)
+  }
+
   const handleRegister = async () => {
     const { email, password, confirmPassword } = values
-    const passValidation = Validate.Password(password)
-    const emailValidation = Validate.email(email)
+    // const passValidation = Validate.Password(password)
+    // const emailValidation = Validate.email(email)
+    // if (email && password && confirmPassword) {
+    //   if (emailValidation && passValidation) {
+    //     setErrorMessage('')
+    //     setIsLoading(true)
+    try {
+      const res = await authenticationAPI.HandleAuthentication(
+        '/register',
+        {
+          fullname: values.username,
+          email,
+          password,
+        },
+        'post'
+      )
+      dispatch(addAuth(res.data))
+      await AsyncStorage.setItem('auth', JSON.stringify(res.data))
+      setIsLoading(false)
 
-    if (email && password && confirmPassword) {
-      if (emailValidation && passValidation) {
-        setErrorMessage('')
-        setIsLoading(true)
-        try {
-          const res = await authenticationAPI.HandleAuthentication(
-            '/register',
-            {
-              fullname: values.username,
-              email,
-              password,
-            },
-            'post'
-          )
-          dispatch(addAuth(res.data))
-          await AsyncStorage.setItem('auth', JSON.stringify(res.data))
-          setIsLoading(false)
-          //   api,
-          //   {email: values.email},
-          //   'post',
-          // );
-          // setIsLoading(false);
-          // navigation.navigate('Verification', {
-          //   code: res.data.code,
-          //   ...values,
-          // });
-        } catch (error) {
-          console.log(error)
-          setIsLoading(false)
-        }
-      } else {
-        setErrorMessage('Email not correct!')
-      }
-    } else {
-      setErrorMessage('Vui lòng nhập đầy đủ thông tin')
+      //       //   api,
+      //       //   {email: values.email},
+      //       //   'post',
+      //       // );
+      //       // setIsLoading(false);
+      //       // navigation.navigate('Verification', {
+      //       //   code: res.data.code,
+      //       //   ...values,
+      //       // });
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
     }
-    // const api = `/verification`;
+    //   } else {
+    //     setErrorMessage('Email not correct!')
+    //   }
+    // } else {
+    //   setErrorMessage('Vui lòng nhập đầy đủ thông tin')
+    // }
+    // // const api = `/verification`;
   }
 
   return (
@@ -118,6 +172,7 @@ const SignUpScreen = ({ navigation }: any) => {
             onChange={(val) => handleChangeValue('email', val)}
             allowClear
             affix={<Sms size={22} color={appColors.gray} />}
+            onEnd={() => formValidator('email')}
           />
           <InputComponent
             value={values.password}
@@ -126,6 +181,7 @@ const SignUpScreen = ({ navigation }: any) => {
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray} />}
+            onEnd={() => formValidator('password')}
           />
           <InputComponent
             value={values.confirmPassword}
@@ -134,27 +190,32 @@ const SignUpScreen = ({ navigation }: any) => {
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray} />}
+            onEnd={() => formValidator('confirmPassword')}
           />
         </SectionComponent>
-        {errorMessage && (
-          <SectionComponent>
-            {Object.keys(errorMessage).map(
-              (error, index) =>
-                errorMessage[`${error}`] && (
-                  <TextComponent
-                    text={errorMessage[`${error}`]}
-                    key={`error${index}`}
-                    color={appColors.danger}
-                  />
-                )
-            )}
-          </SectionComponent>
-        )}
+        {errorMessage &&
+          (errorMessage.email ||
+            errorMessage.password ||
+            errorMessage.confirmPassword) && (
+            <SectionComponent>
+              {Object.keys(errorMessage).map(
+                (error, index) =>
+                  errorMessage[`${error}`] && (
+                    <TextComponent
+                      text={errorMessage[`${error}`]}
+                      key={`error${index}`}
+                      color={appColors.danger}
+                    />
+                  )
+              )}
+            </SectionComponent>
+          )}
         <SpaceComponent height={16} />
         <SectionComponent styles={{ justifyContent: 'center' }}>
           <ButtonComponent
             text="SIGN UP"
             type="primary"
+            disable={isDisable}
             onPress={handleRegister}
           />
         </SectionComponent>

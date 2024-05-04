@@ -144,7 +144,7 @@ const LoginScreen = ({ navigation }: any) => {
   const [isRemember, setIsRemember] = useState(true)
   const [isDisable, setIsDisable] = useState(true)
 
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   // useEffect(() => {
   //   const emailValidation = Validate.email(email)
@@ -157,33 +157,38 @@ const LoginScreen = ({ navigation }: any) => {
   // }, [email, password])
 
   const handleLogin = async () => {
+    const emailValidation = Validate.email(email)
+    if (emailValidation) {
+      try {
+        const res = await authenticationAPI.HandleAuthentication(
+          '/login',
+          { email, password },
+          'post'
+        )
+
+        dispatch(addAuth(res.data))
+
+        await AsyncStorage.setItem(
+          'auth',
+          isRemember ? JSON.stringify(res.data) : email
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      Alert.alert('Email is not correct!!!!')
+    }
+
     try {
-      const res = await authenticationAPI.HandleAuthentication('/hello')
+      const res = await authenticationAPI.HandleAuthentication(
+        '/login',
+        { email, password },
+        'post'
+      )
       console.log(res)
     } catch (error) {
       console.log(error)
     }
-    // const emailValidation = Validate.email(email)
-    // if (emailValidation) {
-    //   try {
-    //     const res = await authenticationAPI.HandleAuthentication(
-    //       '/login',
-    //       { email, password },
-    //       'post'
-    //     )
-
-    //     dispatch(addAuth(res.data))
-
-    //     await AsyncStorage.setItem(
-    //       'auth',
-    //       isRemember ? JSON.stringify(res.data) : email
-    //     )
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // } else {
-    //   Alert.alert('Email is not correct!!!!')
-    // }
   }
   return (
     <ContainerComponent isImageBackground>
