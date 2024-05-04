@@ -156,29 +156,35 @@ const LoginScreen = ({ navigation }: any) => {
   //   }
   // }, [email, password])
 
-  // const handleLogin = async () => {
-  //   const emailValidation = Validate.email(email)
-  //   if (emailValidation) {
-  //     try {
-  //       const res = await authenticationAPI.HandleAuthentication(
-  //         '/login',
-  //         { email, password },
-  //         'post'
-  //       )
+  const handleLogin = async () => {
+    try {
+      const res = await authenticationAPI.HandleAuthentication('/hello')
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+    // const emailValidation = Validate.email(email)
+    // if (emailValidation) {
+    //   try {
+    //     const res = await authenticationAPI.HandleAuthentication(
+    //       '/login',
+    //       { email, password },
+    //       'post'
+    //     )
 
-  //       dispatch(addAuth(res.data))
+    //     dispatch(addAuth(res.data))
 
-  //       await AsyncStorage.setItem(
-  //         'auth',
-  //         isRemember ? JSON.stringify(res.data) : email
-  //       )
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   } else {
-  //     Alert.alert('Email is not correct!!!!')
-  //   }
-  // }
+    //     await AsyncStorage.setItem(
+    //       'auth',
+    //       isRemember ? JSON.stringify(res.data) : email
+    //     )
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // } else {
+    //   Alert.alert('Email is not correct!!!!')
+    // }
+  }
   return (
     <ContainerComponent isImageBackground>
       <SectionComponent
@@ -240,7 +246,7 @@ const LoginScreen = ({ navigation }: any) => {
       </SectionComponent>
       <SpaceComponent height={16} />
       <SectionComponent>
-        <ButtonComponent text="SIGN IN" type="primary" />
+        <ButtonComponent text="SIGN IN" type="primary" onPress={handleLogin} />
       </SectionComponent>
       <SocialLogin />
       <SectionComponent>

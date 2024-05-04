@@ -10,8 +10,11 @@ import { Button, Flex, Text } from '@react-native-material/core'
 import { AntDesign } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { SimpleLineIcons } from '@expo/vector-icons'
+import { useDispatch } from 'react-redux'
+import { removeAuth } from '../../redux/reducers/authReducer'
 
 const Setting = ({ navigation }) => {
+  const dispatch = useDispatch()
   const styles = StyleSheet.create({
     container: {
       display: 'flex',
@@ -139,7 +142,7 @@ const Setting = ({ navigation }) => {
           </Flex>
         </TouchableOpacity>
       </ScrollView>
-      <TouchableOpacity onPress={pressHanderLogin}>
+      <TouchableOpacity onPress={() => dispatch(removeAuth)}>
         <Flex style={styles.signout}>
           <AntDesign
             name="logout"

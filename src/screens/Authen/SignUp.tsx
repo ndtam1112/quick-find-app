@@ -18,6 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Text } from '@react-native-material/core'
 import { globalStyles } from '../../styles/globalStyles'
 import SocialLogin from './components/SocialLogin'
+import { LoadingModal } from '../../modals'
+import { useDispatch } from 'react-redux'
 
 const initValue = {
   username: '',
@@ -32,6 +34,14 @@ const SignUpScreen = ({ navigation }: any) => {
   const [errorMessage, setErrorMessage] = useState<any>()
   const [isDisable, setIsDisable] = useState(true)
 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (values.email || values.password) {
+      setErrorMessage('')
+    }
+  }, [values.email, values.password])
+
   const handleChangeValue = (key: string, value: string) => {
     const data: any = { ...values }
 
@@ -40,63 +50,128 @@ const SignUpScreen = ({ navigation }: any) => {
     setValues(data)
   }
 
+  const handleRegister = async () => {
+    const { email, password, confirmPassword } = values
+    const passValidation = Validate.Password(password)
+    const emailValidation = Validate.email(email)
+
+    if (email && password && confirmPassword) {
+      if (emailValidation && passValidation) {
+        setErrorMessage('')
+        setIsLoading(true)
+        try {
+          const res = await authenticationAPI.HandleAuthentication(
+            '/register',
+            {
+              fullname: values.username,
+              email,
+              password,
+            },
+            'post'
+          )
+          dispatch(addAuth(res.data))
+          await AsyncStorage.setItem('auth', JSON.stringify(res.data))
+          setIsLoading(false)
+          //   api,
+          //   {email: values.email},
+          //   'post',
+          // );
+          // setIsLoading(false);
+          // navigation.navigate('Verification', {
+          //   code: res.data.code,
+          //   ...values,
+          // });
+        } catch (error) {
+          console.log(error)
+          setIsLoading(false)
+        }
+      } else {
+        setErrorMessage('Email not correct!')
+      }
+    } else {
+      setErrorMessage('Vui lòng nhập đầy đủ thông tin')
+    }
+    // const api = `/verification`;
+  }
+
   return (
-    <ContainerComponent isImageBackground back isScroll>
-      <SectionComponent>
-        <TextComponent
-          styles={{ fontWeight: 'bold' }}
-          size={24}
-          title
-          text="Đăng ký"
-        />
-        <SpaceComponent height={21} />
-        <InputComponent
-          value={values.username}
-          placeholder="Fullname"
-          onChange={(val) => handleChangeValue('username', val)}
-          allowClear
-          affix={<User size={22} color={appColors.gray} />}
-        />
-        <InputComponent
-          value={values.email}
-          placeholder="abc@email.com"
-          onChange={(val) => handleChangeValue('email', val)}
-          allowClear
-          affix={<Sms size={22} color={appColors.gray} />}
-        />
-        <InputComponent
-          value={values.password}
-          placeholder="Password"
-          onChange={(val) => handleChangeValue('password', val)}
-          isPassword
-          allowClear
-          affix={<Lock size={22} color={appColors.gray} />}
-        />
-        <InputComponent
-          value={values.confirmPassword}
-          placeholder="Confirm Password"
-          onChange={(val) => handleChangeValue('confirmPassword', val)}
-          isPassword
-          allowClear
-          affix={<Lock size={22} color={appColors.gray} />}
-        />
-      </SectionComponent>
-      <SpaceComponent height={16} />
-      <SectionComponent styles={{ justifyContent: 'center' }}>
-        <ButtonComponent text="SIGN UP" type="primary" />
-      </SectionComponent>
-      <SocialLogin />
-      <SectionComponent>
-        <RowComponent justify="center">
-          <TextComponent text="Bạn đã có tài khoản? " />
-          <ButtonComponent
-            type="link"
-            text="Đăng nhập"
-            onPress={() => navigation.navigate('Login')}
+    <>
+      <ContainerComponent isImageBackground back isScroll>
+        <SectionComponent>
+          <TextComponent
+            styles={{ fontWeight: 'bold' }}
+            size={24}
+            title
+            text="Đăng ký"
           />
-        </RowComponent>
-      </SectionComponent>
-    </ContainerComponent>
+          <SpaceComponent height={21} />
+          <InputComponent
+            value={values.username}
+            placeholder="Fullname"
+            onChange={(val) => handleChangeValue('username', val)}
+            allowClear
+            affix={<User size={22} color={appColors.gray} />}
+          />
+          <InputComponent
+            value={values.email}
+            placeholder="abc@email.com"
+            onChange={(val) => handleChangeValue('email', val)}
+            allowClear
+            affix={<Sms size={22} color={appColors.gray} />}
+          />
+          <InputComponent
+            value={values.password}
+            placeholder="Password"
+            onChange={(val) => handleChangeValue('password', val)}
+            isPassword
+            allowClear
+            affix={<Lock size={22} color={appColors.gray} />}
+          />
+          <InputComponent
+            value={values.confirmPassword}
+            placeholder="Confirm Password"
+            onChange={(val) => handleChangeValue('confirmPassword', val)}
+            isPassword
+            allowClear
+            affix={<Lock size={22} color={appColors.gray} />}
+          />
+        </SectionComponent>
+        {errorMessage && (
+          <SectionComponent>
+            {Object.keys(errorMessage).map(
+              (error, index) =>
+                errorMessage[`${error}`] && (
+                  <TextComponent
+                    text={errorMessage[`${error}`]}
+                    key={`error${index}`}
+                    color={appColors.danger}
+                  />
+                )
+            )}
+          </SectionComponent>
+        )}
+        <SpaceComponent height={16} />
+        <SectionComponent styles={{ justifyContent: 'center' }}>
+          <ButtonComponent
+            text="SIGN UP"
+            type="primary"
+            onPress={handleRegister}
+          />
+        </SectionComponent>
+        <SocialLogin />
+        <SectionComponent>
+          <RowComponent justify="center">
+            <TextComponent text="Bạn đã có tài khoản? " />
+            <ButtonComponent
+              type="link"
+              text="Đăng nhập"
+              onPress={() => navigation.navigate('Login')}
+            />
+          </RowComponent>
+        </SectionComponent>
+      </ContainerComponent>
+      <LoadingModal visible={isLoading} />
+    </>
   )
 }
 

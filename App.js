@@ -6,13 +6,16 @@ import Splash from './src/screens/Authen/Splash'
 import { useEffect, useState } from 'react'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import MainNavigator from './src/routes/MainNavigator'
+import { Provider } from 'react-redux'
+import AppRouters from './src/routes/AppRouters'
+import store from './src/redux/stores'
 
 export default function App() {
   const [isShowSplash, setIsShowSplash] = useState(true)
 
-  const [accesToken, setAccessToken] = useState('')
+  // const [accesToken, setAccessToken] = useState('')
 
-  const { getItem, setItem } = useAsyncStorage('assetToken')
+  // const { getItem, setItem } = useAsyncStorage('assetToken')
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -21,14 +24,14 @@ export default function App() {
     return () => clearTimeout(timeout)
   }, [])
 
-  useEffect(() => {
-    checkLogin()
-  }, [])
+  // useEffect(() => {
+  //   checkLogin()
+  // }, [])
 
-  const checkLogin = async () => {
-    const token = await getItem()
-    token && setAccessToken(token)
-  }
+  // const checkLogin = async () => {
+  //   const token = await getItem()
+  //   token && setAccessToken(token)
+  // }
 
   return (
     <>
@@ -37,13 +40,15 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {isShowSplash ? (
-        <Splash />
-      ) : (
-        <NavigationContainer>
-          {accesToken ? <MainNavigator /> : <AuthStack />}
-        </NavigationContainer>
-      )}
+      <Provider store={store}>
+        {isShowSplash ? (
+          <Splash />
+        ) : (
+          <NavigationContainer>
+            <AppRouters />
+          </NavigationContainer>
+        )}
+      </Provider>
     </>
   )
 }
