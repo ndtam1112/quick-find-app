@@ -122,13 +122,13 @@ const SelectTo = ({ navigation }) => {
         {initialRegion && (
           <MapView
             ref={_map}
-            showsMyLocationButton={true}
-            showUserLocation={true}
-            followUserLocation={true}
+            showsUserLocation
+            showsMyLocationButton
+            followUserLocation
             rotateEnabled={true}
             zoomEnabled={true}
             toolbarEnabled={true}
-            provider={PROVIDER_GOOGLE}
+            // provider={PROVIDER_GOOGLE}
             style={styles.bximg}
             initialRegion={initialRegion}
             loadingEnabled

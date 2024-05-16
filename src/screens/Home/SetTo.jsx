@@ -19,6 +19,7 @@ import { Feather } from '@expo/vector-icons'
 import { fontWeight } from '@mui/system'
 import { TouchableOpacity } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import ChoiceLocation from '../../components/ChoiceLocation'
 
 const styles = StyleSheet.create({
   container: {
@@ -180,10 +181,11 @@ const SetTo = ({ navigation }) => {
                 style={styles.img}
               />
               <TouchableOpacity onPress={pressSelectTo}>
-                <Ionicons name="ios-map-outline" size={24} color="white" />
+                <Ionicons name="map-outline" size={24} color="white" />
               </TouchableOpacity>
             </Flex>
-            <GooglePlacesAutocomplete
+            <ChoiceLocation />
+            {/* <GooglePlacesAutocomplete
               style={styles.txinput}
               leading={(props) => (
                 <FontAwesome5 name="map-pin" size={24} color="black" />
@@ -200,7 +202,7 @@ const SetTo = ({ navigation }) => {
                 key: 'AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM',
                 language: 'en',
               }}
-            />
+            /> */}
           </Flex>
           <Flex style={styles.listSub}>
             <Text
@@ -322,11 +324,6 @@ const SetTo = ({ navigation }) => {
               </TouchableOpacity>
             </Flex>
           </Flex>
-          <Button
-            onPress={pressSetFrom}
-            style={styles.btn}
-            title="Chọn điểm đến này"
-          />
         </Flex>
       </ScrollView>
     </TouchableWithoutFeedback>

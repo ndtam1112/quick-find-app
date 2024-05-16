@@ -9,6 +9,7 @@ import MainNavigator from './src/routes/MainNavigator'
 import { Provider } from 'react-redux'
 import AppRouters from './src/routes/AppRouters'
 import store from './src/redux/stores'
+import 'react-native-reanimated'
 
 export default function App() {
   return (

@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import React, { useState } from 'react'
 import { LoginManager, Profile, Settings } from 'react-native-fbsdk-next'
 import { useDispatch } from 'react-redux'
@@ -129,7 +128,7 @@ const SocialLogin = () => {
         OR
       </Text>
       <SpaceComponent height={16} />
-      <Button style={[styles.btn]} title="Login with Google " />
+      <ButtonComponent type='primary' text="Login with Google " />
       {/* <ButtonComponent
         type="primary"
         color={appColors.white}

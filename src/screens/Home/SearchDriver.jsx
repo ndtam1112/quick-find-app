@@ -19,6 +19,8 @@ import {
   View,
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ButtonComponent } from '../../components'
+import { LoadingModal } from '../../modals'
 
 const styles = StyleSheet.create({
   container: {
@@ -104,10 +106,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -185,13 +187,7 @@ const SearchDriver = ({ navigation }) => {
           >
             Đang tìm tài xế
           </Text>
-          <Button
-            style={styles.btn_load}
-            disabled
-            title="Button"
-            loading={loading}
-            loadingIndicatorPosition="overlay"
-          />
+          {/* <LoadingModal /> */}
         </Flex>
         <Flex
           center

@@ -24,10 +24,10 @@ export const globalStyles = StyleSheet.create({
   },
   shadow: {
     shadowColor: 'rgba(0,0,0,0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 4,
+    // },
     shadowOpacity: 0.25,
     shadowRadius: 8,
     elevation: 6,
@@ -65,5 +65,26 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: appColors.white,
     margin: 12,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: appColors.gray3,
+    width: '100%',
+    minHeight: 56,
+    paddingVertical: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: appColors.white,
+    marginBottom: 19,
+  },
+  input: {
+    padding: 0,
+    margin: 0,
+    flex: 1,
+    // paddingHorizontal: 14,
+    color: appColors.text,
   },
 })

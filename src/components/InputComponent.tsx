@@ -4,6 +4,8 @@ import {
   TextInput,
   StyleSheet,
   KeyboardType,
+  StyleProp,
+  ViewStyle,
 } from 'react-native'
 import React, { ReactNode, useState } from 'react'
 import { appColors } from '../constants/appColors'
@@ -20,6 +22,9 @@ interface Props {
   allowClear?: boolean
   type?: KeyboardType
   onEnd?: () => void
+  multiline?: boolean
+  numberOfLine?: number
+  styles?: StyleProp<ViewStyle>
 }
 
 const InputComponent = (props: Props) => {
@@ -32,17 +37,28 @@ const InputComponent = (props: Props) => {
     isPassword,
     allowClear,
     type,
+    multiline,
+    numberOfLine,
+    styles,
     onEnd,
   } = props
 
   const [isShowPass, setIsShowPass] = useState(isPassword ?? false)
 
   return (
-    <View style={[styles.inputContainer]}>
+    <View style={[globalStyles.inputContainer]}>
       {affix ?? affix}
       <TextInput
-        style={[styles.input, globalStyles.text]}
+        style={[
+          globalStyles.input,
+          globalStyles.text,
+          {
+            paddingHorizontal: affix || suffix ? 12 : 0,
+          },
+        ]}
+        multiline={multiline}
         value={value}
+        numberOfLines={numberOfLine}
         placeholder={placeholder ?? ''}
         onChangeText={(val) => onChange(val)}
         secureTextEntry={isShowPass}
@@ -64,6 +80,7 @@ const InputComponent = (props: Props) => {
             color={appColors.gray}
           />
         ) : (
+          value &&
           value.length > 0 &&
           allowClear && (
             <SimpleLineIcons name="close" size={22} color={appColors.text} />

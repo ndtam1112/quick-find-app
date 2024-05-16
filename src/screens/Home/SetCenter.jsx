@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -227,7 +227,7 @@ const SetCenter = ({ navigation }) => {
                 style={styles.img}
               />
               <TouchableOpacity onPress={pressSelectCenter}>
-                <Ionicons name="ios-map-outline" size={24} color="white" />
+                <Ionicons name="map-outline" size={24} color="white" />
               </TouchableOpacity>
             </Flex>
             <TextInput
@@ -478,11 +478,6 @@ const SetCenter = ({ navigation }) => {
               </TouchableOpacity>
             </Flex>
           </Flex>
-          <Button
-            onPress={pressInforOrder}
-            style={styles.btn}
-            title="Chọn trung tâm này"
-          />
         </Flex>
       </ScrollView>
     </TouchableWithoutFeedback>

@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -235,7 +235,7 @@ const SetFrom = ({ navigation }) => {
                 style={styles.img}
               />
               <TouchableOpacity onPress={pressSelectFrom}>
-                <Ionicons name="ios-map-outline" size={24} color="white" />
+                <Ionicons name="map-outline" size={24} color="white" />
               </TouchableOpacity>
             </Flex>
             <GooglePlacesAutocomplete
@@ -478,11 +478,6 @@ const SetFrom = ({ navigation }) => {
               </TouchableOpacity>
             </Flex>
           </Flex>
-          <Button
-            onPress={pressSetCenter}
-            style={styles.btn}
-            title="Chọn điểm đón này"
-          />
         </Flex>
       </ScrollView>
     </TouchableWithoutFeedback>

@@ -10,12 +10,13 @@ import { Button, Flex, Text } from '@react-native-material/core'
 import { AntDesign } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { SimpleLineIcons } from '@expo/vector-icons'
-import { useDispatch } from 'react-redux'
-import { removeAuth } from '../../redux/reducers/authReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { authSelector, removeAuth } from '../../redux/reducers/authReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Setting = ({ navigation }) => {
   const dispatch = useDispatch()
+  const auth = useSelector(authSelector)
   const styles = StyleSheet.create({
     container: {
       display: 'flex',
@@ -72,10 +73,10 @@ const Setting = ({ navigation }) => {
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       shadowColor: 'rgba(0,0,0,0.7)',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 2,
+      // },
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
@@ -97,10 +98,10 @@ const Setting = ({ navigation }) => {
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       shadowColor: 'rgba(0,0,0,0.7)',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 2,
+      // },
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
@@ -145,8 +146,8 @@ const Setting = ({ navigation }) => {
       </ScrollView>
       <TouchableOpacity
         onPress={async () => {
-          await AsyncStorage.clear()
-          dispatch(removeAuth)
+          await AsyncStorage.setItem('auth', auth.email)
+          dispatch(removeAuth({}))
         }}
       >
         <Flex style={styles.signout}>

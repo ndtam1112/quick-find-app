@@ -74,10 +74,10 @@ const ListChat = () => {
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       shadowColor: 'rgba(0,0,0,0.7)',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 2,
+      // },
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
@@ -96,10 +96,10 @@ const ListChat = () => {
       justifyContent: 'center',
       alignItems: 'center',
       shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 2,
+      // },
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
