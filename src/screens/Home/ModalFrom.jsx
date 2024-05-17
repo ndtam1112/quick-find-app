@@ -1,57 +1,33 @@
-import axios from 'axios'
 import { SearchNormal1 } from 'iconsax-react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import {
-  ActivityIndicator,
   Dimensions,
-  FlatList,
   Keyboard,
   Modal,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native'
-import {
-  ButtonComponent,
-  InputComponent,
-  RowComponent,
-  SpaceComponent,
-  TextComponent,
-} from '../components'
-import { appColors } from '../constants/appColors'
-import { LocationModel } from '../models/LocationModel'
-import MapView, { PROVIDER_GOOGLE, Marker, LatLng } from 'react-native-maps'
-import { appInfo } from '../constants/appInfo'
-import { AddressModel } from '../models/AddressModel'
+import { ButtonComponent, InputComponent, RowComponent } from '../../components'
+import { appColors } from '../../constants/appColors'
+import MapView, { Marker } from 'react-native-maps'
 import * as Location from 'expo-location'
-import { globalStyle } from '../styles/global'
+import { Flex, Text } from '@react-native-material/core'
+import { Entypo, MaterialIcons } from '@expo/vector-icons'
 
-interface Props {
-  visible: boolean
-  onClose: () => void
-  onSelect: (val: {
-    address: string
-    postion?: {
-      lat: number
-      long: number
-    }
-  }) => void
-}
-
-const ModalLocation = (props: Props) => {
-  const { visible, onClose, onSelect } = props
+const ModalFrom = ({ navigation }) => {
   const [searchKey, setSearchKey] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [locations, setLocations] = useState<LocationModel[]>([])
+  const [locations, setLocations] = useState([])
   const [addressSelected, setAddressSelected] = useState('')
 
   const handleClose = () => {
-    onClose()
+    navigation.goBack()
   }
 
-  const _map = useRef<MapView | null>(null)
-  const [title, setTitle] = useState<any | null>()
-  const [desc, setDesc] = useState<any | null>()
+  const _map = useRef(null)
+  const [title, setTitle] = useState()
+  const [desc, setDesc] = useState()
   const [currentLocation, setCurrentLocation] = useState(null)
   const [initialRegion, setInitialRegion] = useState(null)
   const [location, setLocation] = useState(null)
@@ -68,11 +44,14 @@ const ModalLocation = (props: Props) => {
     latitudeDelta: 0.005,
     longitudeDelta: 0.005,
   }
+  const pressSetCenter = () => {
+    navigation.navigate('SetCenter', { paramKey3: text1, paramKey4: text2 })
+  }
 
   const { width, height } = Dimensions.get('window')
   const aspect_ratio = width / height
-  const [results, setResults] = useState<any[]>([])
-
+  const [results, setResults] = useState([])
+  // Lấy vị trí hiện tại, render ra Text
   useEffect(() => {
     const getLocation = async () => {
       let location = await Location.getCurrentPositionAsync({})
@@ -92,8 +71,8 @@ const ModalLocation = (props: Props) => {
         longitude: location.coords.longitude,
         latitude: location.coords.latitude,
       })
-      //setTitle(reverseGeocodeAddress[0])
-      //setDesc(reverseGeocodeAddress[0])
+      setTitle(reverseGeocodeAddress[0])
+      setDesc(reverseGeocodeAddress[0])
       console.log('Reverse:')
       console.log(reverseGeocodeAddress)
     }
@@ -101,6 +80,18 @@ const ModalLocation = (props: Props) => {
     getLocation()
   }, [])
 
+  let text1 = 'Waiting..'
+  let text2 = 'Waiting..'
+  if (errorMsg) {
+    text2 = errorMsg
+  } else if (location) {
+    text1 = `${JSON.stringify(title?.['name'])}`
+    text2 = `${JSON.stringify(desc?.['streetNumber'])}, ${JSON.stringify(
+      desc?.['street']
+    )}, ${JSON.stringify(desc?.['district'])}`
+  }
+
+  // Nhập địa điểm, hiển thị Marker những địa điểm liên quan
   const [searchText, setSearchText] = useState('')
   const searchPlaces = async () => {
     if (!searchText.trim().length) return
@@ -114,7 +105,7 @@ const ModalLocation = (props: Props) => {
       const json = await resp.json()
       //console.log(json)
       if (json && json.results) {
-        const coords: LatLng[] = []
+        const coords = []
         for (const item of json.results) {
           //console.log(item.geometry)
           coords.push({
@@ -140,6 +131,7 @@ const ModalLocation = (props: Props) => {
       console.log(error)
     }
   }
+  // Di chuyển Marker, lấy được địa chỉ mới
   const handleMarkerDragEnd = async (e) => {
     setMarkerPosition(e.nativeEvent.coordinate)
     try {
@@ -155,8 +147,22 @@ const ModalLocation = (props: Props) => {
     }
   }
 
+  // Chọn Marker, lấy được địa chỉ mới
+  const [selectedMarker, setSelectedMarker] = useState(null)
+
+  const handleMarkerPress = (evt, marker) => {
+    const { latitude, longitude } = marker.coordinate
+    console.log(
+      `Selected Marker: Lat: ${latitude.toFixed(3)}, Lng: ${longitude.toFixed(
+        3
+      )}`
+    )
+    // You can update your state or perform any other actions here
+    setSelectedMarker(marker)
+  }
+
   return (
-    <Modal animationType="slide" visible={visible} style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <MapView
         ref={_map}
         showsUserLocation
@@ -178,12 +184,17 @@ const ModalLocation = (props: Props) => {
             }}
             draggable
             onDragEnd={handleMarkerDragEnd}
+            onPress={(evt) =>
+              handleMarkerPress(evt, {
+                coordinate: { latitude: 47.651968, longitude: 9.478485 },
+              })
+            }
           />
         )}
 
         {results.length
           ? results.map((item, i) => {
-              const coord: LatLng = {
+              const coord = {
                 latitude: item.geometry.location.lat,
                 longitude: item.geometry.location.lng,
               }
@@ -194,7 +205,9 @@ const ModalLocation = (props: Props) => {
                   title={item.name}
                   description=""
                   draggable
+                  isPreselected={true}
                   onDragEnd={handleMarkerDragEnd}
+                  onSelect={handleMarkerDragEnd}
                 />
               )
             })
@@ -218,14 +231,53 @@ const ModalLocation = (props: Props) => {
 
           <ButtonComponent text="Cancel" type="link" onPress={handleClose} />
         </RowComponent>
-      <ButtonComponent text="Search" type="primary" onPress={searchPlaces} />
-
+        <ButtonComponent text="Search" type="primary" onPress={searchPlaces} />
       </View>
-    </Modal>
+      {/* {selectedMarker && (
+        <View style={{ padding: 16 }}>
+          <Text>Selected Marker:</Text>
+          <Text>Lat: {selectedMarker.coordinate.latitude.toFixed(3)}</Text>
+          <Text>Lng: {selectedMarker.coordinate.longitude.toFixed(3)}</Text>
+        </View>
+      )} */}
+      <View style={styles.from}>
+        <Flex
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Entypo name="location" size={24} color="black" />
+          <Flex style={{ marginLeft: 16, width: 240 }}>
+            <Text
+              style={{ fontWeight: 'bold', lineHeight: 24, fontSize: 14 }}
+              onChangeText={setTitle}
+              numberOfLines={1}
+            >
+              {text1}
+            </Text>
+            <Text
+              style={{ fontSize: 12, color: 'rgba(0,0,0,0.6)' }}
+              onChangeText={setDesc}
+              numberOfLines={1}
+            >
+              {text2}
+            </Text>
+          </Flex>
+        </Flex>
+        <MaterialIcons name="favorite" size={20} color="black" />
+      </View>
+      <TouchableOpacity onPress={pressSetCenter}>
+        <View style={styles.btn}>
+          <Entypo name="direction" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
+    </View>
   )
 }
 
-export default ModalLocation
+export default ModalFrom
 
 const styles = StyleSheet.create({
   bximg: {
@@ -236,5 +288,38 @@ const styles = StyleSheet.create({
     bottom: 0,
     // width: '100%',
     // height: '100%',
+  },
+  from: {
+    width: '80%',
+    position: 'absolute',
+    bottom: 120,
+    left: 40,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 0.1,
+    borderRadius: 10,
+    padding: 16,
+  },
+  btn: {
+    position: 'absolute',
+    right: 45,
+    top: 470,
+    paddingLeft: 32,
+    paddingRight: 32,
+    paddingTop: 16,
+    paddingBottom: 16,
+    backgroundColor: '#00629D',
+    borderRadius: 10,
+  },
+  container: {
+    position: 'relative',
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
 })

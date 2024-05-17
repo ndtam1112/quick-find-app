@@ -104,8 +104,8 @@ const SelectTo = ({ navigation }) => {
     this.setState({ region })
   }
 
-  const pressSetFrom = () => {
-    navigation.navigate('SetFrom')
+  const pressSetCenter = () => {
+    navigation.navigate('SetCenter')
   }
 
   const pressHanderBack = () => {
@@ -179,7 +179,7 @@ const SelectTo = ({ navigation }) => {
           <MaterialIcons name="favorite" size={20} color="black" />
         </View>
 
-        <TouchableOpacity onPress={pressSetFrom}>
+        <TouchableOpacity onPress={pressSetCenter}>
           <View style={styles.btn}>
             <Entypo name="direction" size={24} color="black" />
           </View>

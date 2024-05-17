@@ -23,167 +23,9 @@ import {
 } from 'react-native'
 import { ButtonComponent } from '../../components'
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    height: '100%',
-    position: 'relative',
-  },
-  header: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#00629D',
-    height: '12%',
-    width: '100%',
-    paddingTop: 32,
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  img: {
-    width: 40,
-    height: 40,
-  },
-  iconbtn: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  iconbtnn: {
-    color: '#00629D',
-    fontSize: 20,
-  },
-  h2: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  form: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 0.1,
-    borderRadius: 8,
-    padding: 8,
-    marginTop: 4,
-  },
-  item: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 16,
-  },
-  content: {
-    position: 'absolute',
-    top: 100,
-    left: 0,
-    width: '100%',
-    height: '90%',
-    backgroundColor: 'rgba(0,0,0,0.1)',
-  },
-  voucher: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 0.1,
-    borderRadius: 8,
-    padding: 16,
-    marginTop: 4,
-  },
-  txinput: {
-    width: '100%',
-    height: 56,
-    marginTop: 4,
-    backgroundColor: '#fff',
-    borderWidth: 0.1,
-    borderRadius: 8,
-    padding: 16,
-  },
-  detail_pay: {
-    width: '100%',
-    display: 'flex',
-    backgroundColor: '#fff',
-    borderWidth: 0.1,
-    borderRadius: 8,
-    padding: 16,
-    marginTop: 4,
-  },
-  textdetail: {
-    fontSize: 14,
-    color: 'rgba(0,0,0,0.5)',
-  },
-  btn: {
-    backgroundColor: '#00629D',
-    borderRadius: 10,
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    width: '80%',
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonClose: {
-    backgroundColor: '#00629D',
-  },
-  textStyle: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  from2: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderRadius: 10,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(0,0,0,0.1)',
-    marginBottom: 16,
-    paddingBottom: 16,
-  },
-})
-
-const InfoOrder = ({ navigation }) => {
+const InfoOrder = ({ navigation, route }) => {
+  const [title, setTitle] = useState()
+  const [desc, setDesc] = useState()
   const [modalVisible, setModalVisible] = useState(false)
   const pressHanderBack = () => {
     navigation.goBack()
@@ -233,10 +75,10 @@ const InfoOrder = ({ navigation }) => {
                     <FontAwesome5 name="map-pin" size={24} color="black" />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Trường Đại học Thủy Lợi
+                        {route.params.paramKey}
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        175 P. Tây Sơn, Trung Liệt, Đống Đa, Hà Nội
+                        {route.params.paramKey2}
                       </Text>
                     </Flex>
                   </Flex>
@@ -262,10 +104,12 @@ const InfoOrder = ({ navigation }) => {
                     <Entypo name="location" size={24} color="black" />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Bệnh viện Đại học Y Hà Nội
+                        {/* Bệnh viện Đại học Y Hà Nội */}
+                        {route.params.paramKey3}
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        1 P. Tôn Thất Tùng, Kim Liên, Đống Đa, Hà Nội
+                        {/* 1 P. Tôn Thất Tùng, Kim Liên, Đống Đa, Hà Nội */}
+                        {route.params.paramKey4}
                       </Text>
                     </Flex>
                   </Flex>
@@ -294,10 +138,12 @@ const InfoOrder = ({ navigation }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        Cấp cứu 911 Hà Nội
+                        {/* Cấp cứu 911 Hà Nội */}
+                        {route.params.paramKey5}
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội
+                        {/* 44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội */}
+                        {route.params.paramKey6}
                       </Text>
                     </Flex>
                   </Flex>
@@ -521,7 +367,11 @@ const InfoOrder = ({ navigation }) => {
               </Text>
             </Flex>
           </Flex>
-          <ButtonComponent type="primary" onPress={pressSearchDriver} text="Đặt xe" />
+          <ButtonComponent
+            type="primary"
+            onPress={pressSearchDriver}
+            text="Đặt xe"
+          />
         </Flex>
       </Flex>
     </TouchableWithoutFeedback>
@@ -529,3 +379,163 @@ const InfoOrder = ({ navigation }) => {
 }
 
 export default InfoOrder
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    height: '100%',
+    position: 'relative',
+  },
+  header: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#00629D',
+    height: '12%',
+    width: '100%',
+    paddingTop: 32,
+    paddingLeft: 24,
+    paddingRight: 24,
+  },
+  img: {
+    width: 40,
+    height: 40,
+  },
+  iconbtn: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  iconbtnn: {
+    color: '#00629D',
+    fontSize: 20,
+  },
+  h2: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  form: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 0.1,
+    borderRadius: 8,
+    padding: 8,
+    marginTop: 4,
+  },
+  item: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 16,
+  },
+  content: {
+    position: 'absolute',
+    top: 100,
+    left: 0,
+    width: '100%',
+    height: '90%',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+  voucher: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 0.1,
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 4,
+  },
+  txinput: {
+    width: '100%',
+    height: 56,
+    marginTop: 4,
+    backgroundColor: '#fff',
+    borderWidth: 0.1,
+    borderRadius: 8,
+    padding: 16,
+  },
+  detail_pay: {
+    width: '100%',
+    display: 'flex',
+    backgroundColor: '#fff',
+    borderWidth: 0.1,
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 4,
+  },
+  textdetail: {
+    fontSize: 14,
+    color: 'rgba(0,0,0,0.5)',
+  },
+  btn: {
+    backgroundColor: '#00629D',
+    borderRadius: 10,
+    marginLeft: 24,
+    marginRight: 24,
+    marginTop: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    width: '80%',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#00629D',
+  },
+  textStyle: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  from2: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
+    marginBottom: 16,
+    paddingBottom: 16,
+  },
+})

@@ -5,48 +5,49 @@ import { appColors } from '../constants/appColors'
 import ModalLocation from '../modals/ModalLocation'
 import { globalStyles } from '../styles/globalStyles'
 
-interface Props {
-  onSelect: (val: any) => void
-}
+// interface Props {
+//   onSelect: (val: any) => void
+// }
 
-const ChoiceLocation = (props: Props) => {
-  const { onSelect } = props
+const ChoiceLocation = ({ navigation }) => {
+  // const { onSelect } = props
 
-  const [isVibleModalLocation, setIsVibleModalLocation] = useState(false)
-  const [addressSelected, setAddressSelected] = useState<{
-    address: string
-    position?: {
-      lat: number
-      long: number
-    }
-  }>()
+  // const [isVibleModalLocation, setIsVibleModalLocation] = useState(false)
+  // const [addressSelected, setAddressSelected] = useState<{
+  //   address: string
+  //   position?: {
+  //     lat: number
+  //     long: number
+  //   }
+  // }>()
+  const pressModal = () => {
+    navigation.navigate('ModalLocation')
+  }
 
   return (
     <>
-      <RowComponent
-        onPress={() => setIsVibleModalLocation(!isVibleModalLocation)}
-        styles={[globalStyles.inputContainer]}
-      >
+      <RowComponent onPress={pressModal} styles={[globalStyles.inputContainer]}>
         <Location variant="Bold" size={22} color={`${appColors.primary}80`} />
 
         <SpaceComponent width={12} />
 
         <TextComponent
           numberOfLine={1}
-          text={addressSelected ? addressSelected.address : 'Choice'}
+          //text={addressSelected ? addressSelected.address : 'Choice'}
+          text="Điểm đến"
           flex={1}
         />
         <ArrowRight2 color={appColors.primary} size={22} />
       </RowComponent>
 
-      <ModalLocation
+      {/* <ModalLocation
         visible={isVibleModalLocation}
         onClose={() => setIsVibleModalLocation(false)}
         onSelect={(val) => {
           setAddressSelected(val)
           onSelect(val)
         }}
-      />
+      /> */}
     </>
   )
 }

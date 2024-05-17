@@ -20,117 +20,15 @@ import { fontWeight } from '@mui/system'
 import { TouchableOpacity } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import ChoiceLocation from '../../components/ChoiceLocation'
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    height: '100%',
-  },
-  header: {
-    backgroundColor: '#00629D',
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 50,
-    height: '40%',
-    width: '100%',
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  main_header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  iconbtn: {
-    fontSize: 18,
-    color: '#fff',
-    marginRight: 16,
-  },
-  img: {
-    width: 40,
-    height: 40,
-  },
-  text: {
-    position: 'absolute',
-    bottom: 40,
-    left: 24,
-    width: '40%',
-    color: '#fff',
-  },
-  txinput: {
-    position: 'absolute',
-    bottom: -35,
-    left: 24,
-    width: '100%',
-    color: '#111',
-    borderBottomColor: '#485563',
-    marginTop: 16,
-    borderColor: '#fff',
-  },
-  h2: {
-    color: '#fff',
-    position: 'absolute',
-    bottom: 84,
-    left: 24,
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 16,
-    marginBottom: 16,
-    letterSpacing: 0.9,
-  },
-  thumb2: {
-    width: 150,
-    height: 150,
-    position: 'absolute',
-    right: 24,
-    top: 75,
-  },
-  item: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(0,0,0,0.1)',
-    marginBottom: 16,
-  },
-  thumbContainer: {
-    width: 70,
-    height: 70,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listSub: {
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 40,
-    marginLeft: 8,
-    marginRight: 8,
-  },
-  btn: {
-    backgroundColor: '#00629D',
-    position: 'fixed',
-    bottom: -12,
-    marginLeft: 24,
-    marginRight: 24,
-  },
-  from: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderRadius: 10,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(0,0,0,0.1)',
-    marginBottom: 16,
-    paddingBottom: 16,
-  },
-})
+import {
+  ButtonComponent,
+  RowComponent,
+  SpaceComponent,
+  TextComponent,
+} from '../../components'
+import { globalStyles } from '../../styles/globalStyles'
+import { ArrowRight2, Location } from 'iconsax-react-native'
+import { appColors } from '../../constants/appColors'
 
 const SetTo = ({ navigation }) => {
   const pressSelectTo = () => {
@@ -138,6 +36,9 @@ const SetTo = ({ navigation }) => {
   }
   const pressListFav = () => {
     navigation.navigate('ListFav')
+  }
+  const pressModalTo = () => {
+    navigation.navigate('ModalTo')
   }
   const pressSetFrom = () => {
     navigation.navigate('SetFrom')
@@ -184,25 +85,26 @@ const SetTo = ({ navigation }) => {
                 <Ionicons name="map-outline" size={24} color="white" />
               </TouchableOpacity>
             </Flex>
-            <ChoiceLocation />
-            {/* <GooglePlacesAutocomplete
-              style={styles.txinput}
-              leading={(props) => (
-                <FontAwesome5 name="map-pin" size={24} color="black" />
-              )}
-              cursorColor={'#485563'}
-              selectionColor={'#29323C'}
-              placeholder="Điểm đến?"
-              // onPress={(data, details = null) => {
-              //   setdestinationPlace({ data, details })
-              //   console.log(data, details)
-              // }}
-              fetchDetails
-              query={{
-                key: 'AIzaSyB1Zkal6o9TOE-bvJcfrmtt-USmdE1pkAM',
-                language: 'en',
-              }}
-            /> */}
+            <RowComponent
+              onPress={pressModalTo}
+              styles={[styles.inputContainer]}
+            >
+              <Location
+                variant="Bold"
+                size={22}
+                color={`${appColors.primary}80`}
+              />
+
+              <SpaceComponent width={12} />
+
+              <TextComponent
+                numberOfLine={1}
+                //text={addressSelected ? addressSelected.address : 'Choice'}
+                text="Điểm đến?"
+                flex={1}
+              />
+              <ArrowRight2 color={appColors.primary} size={22} />
+            </RowComponent>
           </Flex>
           <Flex style={styles.listSub}>
             <Text
@@ -331,3 +233,132 @@ const SetTo = ({ navigation }) => {
 }
 
 export default SetTo
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    height: '100%',
+  },
+  header: {
+    backgroundColor: '#00629D',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 50,
+    height: '40%',
+    width: '100%',
+    paddingLeft: 24,
+    paddingRight: 24,
+  },
+  main_header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  iconbtn: {
+    fontSize: 18,
+    color: '#fff',
+    marginRight: 16,
+  },
+  img: {
+    width: 40,
+    height: 40,
+  },
+  text: {
+    position: 'absolute',
+    bottom: 40,
+    left: 24,
+    width: '40%',
+    color: '#fff',
+  },
+  txinput: {
+    position: 'absolute',
+    bottom: -35,
+    left: 24,
+    width: '100%',
+    color: '#111',
+    borderBottomColor: '#485563',
+    marginTop: 16,
+    borderColor: '#fff',
+  },
+  h2: {
+    color: '#fff',
+    position: 'absolute',
+    bottom: 84,
+    left: 24,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 16,
+    marginBottom: 16,
+    letterSpacing: 0.9,
+  },
+  thumb2: {
+    width: 150,
+    height: 150,
+    position: 'absolute',
+    right: 24,
+    top: 75,
+  },
+  item: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
+    marginBottom: 16,
+  },
+  thumbContainer: {
+    width: 70,
+    height: 70,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listSub: {
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 40,
+    marginLeft: 8,
+    marginRight: 8,
+  },
+  btn: {
+    backgroundColor: '#00629D',
+    position: 'fixed',
+    bottom: -12,
+    marginLeft: 24,
+    marginRight: 24,
+  },
+  from: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
+    marginBottom: 16,
+    paddingBottom: 16,
+  },
+  inputContainer: {
+    position: 'absolute',
+    top: 186,
+    left: 25,
+    right: 20,
+    flexDirection: 'row',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: appColors.gray3,
+    width: '100%',
+    minHeight: 56,
+    paddingVertical: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: appColors.white,
+    marginBottom: 19,
+  },
+})

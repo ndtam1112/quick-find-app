@@ -67,6 +67,8 @@ export const globalStyles = StyleSheet.create({
     margin: 12,
   },
   inputContainer: {
+    
+
     flexDirection: 'row',
     borderRadius: 12,
     borderWidth: 1,

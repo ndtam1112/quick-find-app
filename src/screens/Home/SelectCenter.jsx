@@ -133,7 +133,7 @@ const SelectCenter = ({ navigation }) => {
             rotateEnabled={true}
             zoomEnabled={true}
             toolbarEnabled={true}
-            provider={PROVIDER_GOOGLE}
+            //provider={PROVIDER_GOOGLE}
             style={styles.bximg}
             initialRegion={initialRegion}
             loadingEnabled

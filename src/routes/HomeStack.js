@@ -20,6 +20,9 @@ import DriverComing from '../screens/Home/DriverComing'
 import Complete from '../screens/Home/Complete'
 import SetCenter from '../screens/Home/SetCenter'
 import SelectCenter from '../screens/Home/SelectCenter'
+import ModalTo from '../screens/Home/ModalTo'
+import ModalFrom from '../screens/Home/ModalFrom'
+import ModalCenter from '../screens/Home/ModalCenter'
 
 const Stack = createStackNavigator()
 const HomeStack = () => {
@@ -37,6 +40,9 @@ const HomeStack = () => {
       <Stack.Screen name="SetTo" component={SetTo} />
       <Stack.Screen name="SelectTo" component={SelectTo} />
       <Stack.Screen name="SetFrom" component={SetFrom} />
+      <Stack.Screen name="ModalTo" component={ModalTo} />
+      <Stack.Screen name="ModalFrom" component={ModalFrom} />
+      <Stack.Screen name="ModalCenter" component={ModalCenter} />
       <Stack.Screen name="SelectFrom" component={SelectFrom} />
       <Stack.Screen name="SetCenter" component={SetCenter} />
       <Stack.Screen name="SelectCenter" component={SelectCenter} />
