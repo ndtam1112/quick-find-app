@@ -44,8 +44,8 @@ const ModalFrom = ({ navigation }) => {
     latitudeDelta: 0.005,
     longitudeDelta: 0.005,
   }
-  const pressSetCenter = () => {
-    navigation.navigate('SetCenter', { paramKey3: text1, paramKey4: text2 })
+  const pressInfoOrder = () => {
+    navigation.navigate('InfoOrder', { paramKey3: text1, paramKey4: text2 })
   }
 
   const { width, height } = Dimensions.get('window')
@@ -268,7 +268,7 @@ const ModalFrom = ({ navigation }) => {
         </Flex>
         <MaterialIcons name="favorite" size={20} color="black" />
       </View>
-      <TouchableOpacity onPress={pressSetCenter}>
+      <TouchableOpacity onPress={pressInfoOrder}>
         <View style={styles.btn}>
           <Entypo name="direction" size={24} color="black" />
         </View>

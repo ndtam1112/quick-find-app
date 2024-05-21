@@ -258,7 +258,7 @@ const Home = ({ navigation }) => {
         }}
         fetchDetails
         query={{
-          key: 'AIzaSyCIOCzedhM9cEwFpkBjcArUm39jXIyxl0c',
+          key: 'AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA',
           language: 'en',
         }}
         onFail={(error) => console.log(error)}

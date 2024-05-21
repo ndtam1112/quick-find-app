@@ -25,7 +25,7 @@ import { RowComponent, SpaceComponent, TextComponent } from '../../components'
 import { ArrowRight2, Location } from 'iconsax-react-native'
 import { appColors } from '../../constants/appColors'
 
-const SetCenter = ({ navigation }) => {
+const SetCenter = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const pressSelectCenter = () => {
     navigation.navigate('SelectCenter')

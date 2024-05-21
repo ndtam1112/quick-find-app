@@ -6,7 +6,7 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import { Button, Divider, Flex, Text } from '@react-native-material/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Image,
   Keyboard,
@@ -22,16 +22,26 @@ import {
   View,
 } from 'react-native'
 import { ButtonComponent } from '../../components'
+import { centers } from '../../datas/dataCenters'
 
 const InfoOrder = ({ navigation, route }) => {
-  const [title, setTitle] = useState()
-  const [desc, setDesc] = useState()
+  const [textFrom, setTextFrom] = useState('Vị trí hiện tại')
+  const [nameCenter, setNameCenter] = useState('Cấp cứu 911 Hà Nội')
+  const choicedCenter = (val1, val2) => {
+    setNameCenter(val1)
+    setAddressCenter(val2)
+    setModalCenterVisible(!modalCenterVisible)
+  }
+  const [addressCenter, setAddressCenter] = useState(
+    '44 P. Vũ Trọng Khánh, P. Mỗ Lao, Hà Đông, Hà Nội'
+  )
   const [modalVisible, setModalVisible] = useState(false)
+  const [modalCenterVisible, setModalCenterVisible] = useState(false)
   const pressHanderBack = () => {
     navigation.goBack()
   }
-  const pressSetFrom = () => {
-    navigation.navigate('SetFrom')
+  const pressSelectFrom = () => {
+    navigation.navigate('SelectFrom')
   }
   const pressSetTo = () => {
     navigation.navigate('SetTo')
@@ -42,6 +52,46 @@ const InfoOrder = ({ navigation, route }) => {
   const pressSearchDriver = () => {
     navigation.navigate('SearchDriver')
   }
+
+  const listCenters = centers.map((center) => (
+    <TouchableOpacity
+      key={center.id}
+      onPress={() => choicedCenter(center._name, center._address)}
+      style={{ width: '100%' }}
+    >
+      <Flex style={styles.from2}>
+        <Flex
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <MaterialCommunityIcons
+            style={{ marginRight: 8 }}
+            name="ambulance"
+            size={24}
+            color="black"
+          />
+
+          <Flex style={{ marginLeft: 16 }}>
+            <Text
+              onChangeText={(text) => setNameCenter(text)}
+              style={{ fontWeight: 'bold', lineHeight: 24 }}
+            >
+              {center._name}
+            </Text>
+            <Text
+              onChangeText={(text) => setAddressCenter(text)}
+              style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
+            >
+              {center._address}
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    </TouchableOpacity>
+  ))
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -62,7 +112,7 @@ const InfoOrder = ({ navigation, route }) => {
             <Flex style={styles.form}>
               <TouchableOpacity
                 style={{ width: '100%' }}
-                onPress={pressSetFrom}
+                onPress={pressSelectFrom}
               >
                 <Flex style={styles.item}>
                   <Flex
@@ -75,10 +125,12 @@ const InfoOrder = ({ navigation, route }) => {
                     <FontAwesome5 name="map-pin" size={24} color="black" />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        {route.params.paramKey}
+                        {route.params.paramKey3 === undefined
+                          ? 'Vị trí hiện tại'
+                          : route.params.paramKey3}
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        {route.params.paramKey2}
+                        {route.params.paramKey4}
                       </Text>
                     </Flex>
                   </Flex>
@@ -105,11 +157,11 @@ const InfoOrder = ({ navigation, route }) => {
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
                         {/* Bệnh viện Đại học Y Hà Nội */}
-                        {route.params.paramKey3}
+                        {route.params.paramKey1}
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
                         {/* 1 P. Tôn Thất Tùng, Kim Liên, Đống Đa, Hà Nội */}
-                        {route.params.paramKey4}
+                        {route.params.paramKey2}
                       </Text>
                     </Flex>
                   </Flex>
@@ -121,7 +173,7 @@ const InfoOrder = ({ navigation, route }) => {
             <Flex style={styles.form}>
               <TouchableOpacity
                 style={{ width: '100%' }}
-                onPress={pressSetCenter}
+                onPress={() => setModalCenterVisible(!modalCenterVisible)}
               >
                 <Flex style={styles.item}>
                   <Flex
@@ -129,6 +181,7 @@ const InfoOrder = ({ navigation, route }) => {
                       flexDirection: 'row',
                       justifyContent: 'center',
                       alignItems: 'center',
+                      width: '80%',
                     }}
                   >
                     <MaterialCommunityIcons
@@ -138,169 +191,49 @@ const InfoOrder = ({ navigation, route }) => {
                     />
                     <Flex style={{ marginLeft: 16 }}>
                       <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                        {/* Cấp cứu 911 Hà Nội */}
-                        {route.params.paramKey5}
+                        {nameCenter}
                       </Text>
                       <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                        {/* 44 P. Vũ Trọng Khánh, P. Mộ Lao, Hà Đông, Hà Nội */}
-                        {route.params.paramKey6}
+                        {addressCenter}
                       </Text>
                     </Flex>
+                  </Flex>
+                  <Flex
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Entypo name="chevron-thin-right" style={styles.iconbtnn} />
                   </Flex>
                 </Flex>
               </TouchableOpacity>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalCenterVisible}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.')
+                  setModalCenterVisible(!modalCenterVisible)
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    {listCenters}
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalCenterVisible(!modalCenterVisible)}
+                    >
+                      <Text style={styles.textStyle}>Đóng</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
             </Flex>
           </Flex>
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            <Flex style={styles.voucher}>
-              <Flex
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Entypo
-                  style={{ marginRight: 8 }}
-                  name="ticket"
-                  size={24}
-                  color="black"
-                />
-                <Text>Voucher</Text>
-              </Flex>
-              <Flex
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Text style={{ marginRight: 8 }}>Tên Voucher</Text>
-                <Entypo name="chevron-thin-right" style={styles.iconbtnn} />
-              </Flex>
-            </Flex>
-          </TouchableOpacity>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.')
-              setModalVisible(!modalVisible)
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <TouchableOpacity style={{ width: '100%' }}>
-                  <Flex style={styles.from2}>
-                    <Flex
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Entypo
-                        style={{ marginRight: 8 }}
-                        name="ticket"
-                        size={24}
-                        color="black"
-                      />
-                      <Flex style={{ marginLeft: 16 }}>
-                        <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                          Giảm 30k
-                        </Text>
-                        <Text
-                          style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
-                        >
-                          Đơn tối thiểu 100.000k
-                        </Text>
-                        <Text
-                          style={{ fontSize: 12, color: 'rgba(0,0,0,0.4)' }}
-                        >
-                          HSD: 20/04/2023
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ width: '100%' }}>
-                  <Flex style={styles.from2}>
-                    <Flex
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Entypo
-                        style={{ marginRight: 8 }}
-                        name="ticket"
-                        size={24}
-                        color="black"
-                      />
-                      <Flex style={{ marginLeft: 16 }}>
-                        <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                          Giảm 30k
-                        </Text>
-                        <Text
-                          style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
-                        >
-                          Đơn tối thiểu 100.000k
-                        </Text>
-                        <Text
-                          style={{ fontSize: 12, color: 'rgba(0,0,0,0.4)' }}
-                        >
-                          HSD: 20/04/2023
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ width: '100%' }}>
-                  <Flex style={styles.from2}>
-                    <Flex
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Entypo
-                        style={{ marginRight: 8 }}
-                        name="ticket"
-                        size={24}
-                        color="black"
-                      />
-                      <Flex style={{ marginLeft: 16 }}>
-                        <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                          Giảm 30k
-                        </Text>
-                        <Text
-                          style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}
-                        >
-                          Đơn tối thiểu 100.000k
-                        </Text>
-                        <Text
-                          style={{ fontSize: 12, color: 'rgba(0,0,0,0.4)' }}
-                        >
-                          HSD: 20/04/2023
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </TouchableOpacity>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Đóng</Text>
-                </Pressable>
-              </View>
-            </View>
-          </Modal>
+
           <TextInput
             cursorColor={'#485563'}
             selectionColor={'#29323C'}
@@ -433,7 +366,7 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 10,

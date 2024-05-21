@@ -5,6 +5,7 @@ import {
   Image,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -15,9 +16,11 @@ import {
 import centerAround from '../../global/data.js'
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps'
 import * as Location from 'expo-location'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
-const SelectFrom = ({ navigation }) => {
+const SelectFrom = ({ navigation, route }) => {
   const _map = useRef(1)
+  const [status, setStatus] = useState('1')
 
   const [title, setTitle] = useState()
   const [desc, setDesc] = useState()
@@ -94,18 +97,33 @@ const SelectFrom = ({ navigation }) => {
   if (errorMsg) {
     text2 = errorMsg
   } else if (location) {
-    text1 = `${JSON.stringify(title?.['name'])}`
-    text2 = `${JSON.stringify(desc?.['name'])}, ${JSON.stringify(
-      desc?.['subregion']
-    )}, ${JSON.stringify(desc?.['region'])}`
+    text1 =
+      status != 1
+        ? `${JSON.stringify(desc?.['name'])}`
+        : `${JSON.stringify(title?.['name'])}`
+    text2 =
+      status != 1
+        ? `${JSON.stringify(desc?.['formatted_address'])}`
+        : `${JSON.stringify(desc?.['streetNumber'])}, ${JSON.stringify(
+            desc?.['street']
+          )}, ${JSON.stringify(desc?.['district'])}`
   }
 
   onRegionChange = (region) => {
     this.setState({ region })
   }
-
-  const pressSetCenter = () => {
-    navigation.navigate('SetCenter')
+  useEffect(() => {
+    if (route.params?.paramKey3 && route.params?.paramKey4) {
+      // Post updated, do something with `route.params.post`
+      // For example, send the post to the server
+    }
+  }, [route.params?.paramKey3, route.params?.paramKey4])
+  const pressInfoOrder = () => {
+    navigation.navigate({
+      name: 'InfoOrder',
+      params: { paramKey3: text1, paramKey4: text2 },
+      merge: true,
+    })
   }
 
   const pressHanderBack = () => {
@@ -146,7 +164,29 @@ const SelectFrom = ({ navigation }) => {
             )}
           </MapView>
         )}
-
+        <GooglePlacesAutocomplete
+          // leading={(props) => <EvilIcons name="search" size={24} color="black" />}
+          // cursorColor={'#485563'}
+          // selectionColor={'#29323C'}
+          placeholder="Search"
+          //enableHighAccuracyLocation
+          onPress={(data, details = null) => {
+            //setdestinationPlace({ data, details })
+            setStatus('2')
+            setTitle(details)
+            setDesc(details)
+            console.log(data, details)
+            console.log(data.structured_formatting.main_text)
+          }}
+          fetchDetails
+          query={{
+            key: 'AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA',
+            language: 'vi',
+            components: 'country:vn',
+            currentLocation: true,
+          }}
+          onFail={(error) => console.log(error)}
+        />
         <Entypo
           onPress={pressHanderBack}
           name="chevron-thin-left"
@@ -179,7 +219,7 @@ const SelectFrom = ({ navigation }) => {
           <MaterialIcons name="favorite" size={20} color="black" />
         </View>
 
-        <TouchableOpacity onPress={pressSetCenter}>
+        <TouchableOpacity onPress={pressInfoOrder}>
           <View style={styles.btn}>
             <Entypo name="direction" size={24} color="black" />
           </View>
@@ -194,11 +234,12 @@ export default SelectFrom
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    display: 'flex',
+    // display: 'flex',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // height: '100%',
+    paddingVertical: Platform.OS === 'android' ? StatusBar.currentHeight : 48,
   },
   iconbtn: {
     position: 'absolute',
@@ -237,8 +278,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     position: 'absolute',
-    left: 80,
-    top: 320,
+    right: 45,
+    bottom: 0,
     paddingLeft: 32,
     paddingRight: 32,
     paddingTop: 16,
@@ -249,18 +290,17 @@ const styles = StyleSheet.create({
   txinput: {
     width: '55%',
     height: 56,
-    position: 'absolute',
-    left: 32,
-    bottom: 64,
+    // position: 'absolute',
+    // left: 32,
+    // bottom: 350,
     padding: 16,
-
+    margin: 14,
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.3)',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-
     backgroundColor: 'rgba(0,0,0,0.1)',
   },
 })

@@ -45,7 +45,12 @@ const ModalCenter = ({ navigation }) => {
     longitudeDelta: 0.005,
   }
   const pressInfoOrder = () => {
-    navigation.navigate('InfoOrder', { paramKey5: text1, paramKey6: text2 })
+    navigation.navigate('InfoOrder', {
+      paramKey5: text1,
+      paramKey6: text2,
+      paramKey7: paramKey9,
+      paramKey8: paramKey10,
+    })
   }
 
   const { width, height } = Dimensions.get('window')
