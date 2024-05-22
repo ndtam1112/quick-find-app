@@ -6,7 +6,7 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import { Button, Divider, Flex, Text } from '@react-native-material/core'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Image,
   Keyboard,
@@ -23,8 +23,27 @@ import {
 } from 'react-native'
 import { ButtonComponent } from '../../components'
 import { centers } from '../../datas/dataCenters'
+import MapView, { LatLng, Marker } from 'react-native-maps'
+import * as Location from 'expo-location'
+import MapViewDirections from 'react-native-maps-directions'
 
 const InfoOrder = ({ navigation, route }) => {
+  const setDestination = route.params._setDestination
+  const setOrigin = route.params._setOrigin
+
+  const [title, setTitle] = useState()
+  const [desc, setDesc] = useState()
+  // const [origin, setOrigin] = useState()
+  // const [destination, setDestination] = useState()
+  const [location, setLocation] = useState()
+  const [originNow, setOriginNow] = useState(
+    setOrigin === undefined ? location : setOrigin
+  )
+  console.log('originNow', originNow)
+  console.log('setOrigin', setOrigin)
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [initialRegion, setInitialRegion] = useState(null)
+  const [showDirections, setShowDirections] = useState(false)
   const [textFrom, setTextFrom] = useState('Vị trí hiện tại')
   const [nameCenter, setNameCenter] = useState('Cấp cứu 911 Hà Nội')
   const choicedCenter = (val1, val2) => {
@@ -50,8 +69,14 @@ const InfoOrder = ({ navigation, route }) => {
     navigation.navigate('SetCenter')
   }
   const pressSearchDriver = () => {
-    navigation.navigate('SearchDriver')
+    navigation.navigate('SearchDriver', {
+      origin: originNow,
+      destination: setDestination,
+    })
   }
+  const _map = useRef(1)
+  const [distance, setDistance] = useState(0)
+  const [duration, setDuration] = useState(0)
 
   const listCenters = centers.map((center) => (
     <TouchableOpacity
@@ -92,6 +117,65 @@ const InfoOrder = ({ navigation, route }) => {
       </Flex>
     </TouchableOpacity>
   ))
+
+  useEffect(() => {
+    const getLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied')
+        return
+      }
+
+      let location = await Location.getCurrentPositionAsync({})
+      setLocation(location)
+      setOriginNow(location.coords)
+      console.log('LocationCoord:')
+      console.log(location)
+
+      setInitialRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      })
+      let reverseGeocodeAddress = await Location.reverseGeocodeAsync({
+        longitude: location.coords.longitude,
+        latitude: location.coords.latitude,
+      })
+      setTitle(reverseGeocodeAddress[0])
+      setDesc(reverseGeocodeAddress[0])
+      console.log('Reverse:')
+      console.log(reverseGeocodeAddress)
+    }
+
+    getLocation()
+  }, [])
+  let text1 = 'Waiting..'
+  let text2 = 'Waiting..'
+  if (errorMsg) {
+    text2 = errorMsg
+  } else if (location) {
+    // const text1Json = JSON.stringify(title?.['name'])
+    // const text1 = text1Json.replace(/"(.+)"/g, '$1')
+
+    text1 = `${JSON.stringify(title?.['name'])}`
+    text2 = `${JSON.stringify(desc?.['name'])}, ${JSON.stringify(
+      desc?.['subregion']
+    )}, ${JSON.stringify(desc?.['city'])}`
+  }
+  const edgePaddingValue = 70
+  const edgePadding = {
+    top: edgePaddingValue,
+    right: edgePaddingValue,
+    bottom: edgePaddingValue,
+    left: edgePaddingValue,
+  }
+  const traceRouteOnReady = (args) => {
+    if (args) {
+      setDistance(args.distance)
+      setDuration(args.duration)
+    }
+  }
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -106,7 +190,30 @@ const InfoOrder = ({ navigation, route }) => {
           <Text style={styles.h2}>Thanh toán</Text>
           <Entypo name="chevron-thin-left" style={styles.iconbtnn} />
         </Flex>
+        <MapView
+          ref={_map}
+          showsUserLocation
+          showsMyLocationButton
+          followUserLocation
+          rotateEnabled={true}
+          zoomEnabled={true}
+          toolbarEnabled={true}
+          // provider={PROVIDER_GOOGLE}
+          initialRegion={initialRegion}
+          loadingEnabled
+        >
+          {originNow && <Marker coordinate={originNow} />}
+          {setDestination && <Marker coordinate={setDestination} />}
 
+          {originNow && setDestination && (
+            <MapViewDirections
+              origin={originNow}
+              destination={setDestination}
+              apikey="AIzaSyAnlbziCM0NNGdRdbXhLF9V1GUVULX0L5o"
+              onReady={traceRouteOnReady}
+            />
+          )}
+        </MapView>
         <Flex style={styles.content}>
           <Flex style={styles.address}>
             <Flex style={styles.form}>
@@ -258,31 +365,35 @@ const InfoOrder = ({ navigation, route }) => {
               />
               <Text>Chi tiết thanh toán</Text>
             </Flex>
-            {/* <Flex style={{ marginTop: 16 }}>
-              <Flex
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: 4,
-                }}
-              >
-                <Text style={styles.textdetail}>Tổng tiền</Text>
-                <Text style={styles.textdetail}>đ200.000</Text>
+            {distance && duration ? (
+              <Flex style={{ marginTop: 16 }}>
+                <Flex
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 4,
+                  }}
+                >
+                  <Text style={styles.textdetail}>Khoảng cách</Text>
+                  <Text style={styles.textdetail}>{distance.toFixed(2)} km</Text>
+                </Flex>
+                <Flex
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={styles.textdetail}>Thời gian</Text>
+                  <Text style={styles.textdetail}>
+                    {Math.ceil(duration)} phút
+                  </Text>
+                </Flex>
               </Flex>
-              <Flex
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Text style={styles.textdetail}>Voucher giảm giá</Text>
-                <Text style={styles.textdetail}>đ0</Text>
-              </Flex>
-            </Flex> */}
+            ) : null}
             <Flex
               style={{
                 display: 'flex',

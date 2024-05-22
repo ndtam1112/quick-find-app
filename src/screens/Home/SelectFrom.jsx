@@ -49,6 +49,7 @@ const SelectFrom = ({ navigation, route }) => {
       let location = await Location.getCurrentPositionAsync({})
       setCurrentLocation(location)
       setLocation(location)
+      setOrigin(location.coords)
       console.log('LocationCoord:')
       console.log(location)
 
@@ -80,6 +81,7 @@ const SelectFrom = ({ navigation, route }) => {
       })
       setTitle(address[0])
       setDesc(address[0])
+
       console.log('Address:', address)
     } catch (error) {
       console.error('Error fetching address:', error)
@@ -108,7 +110,10 @@ const SelectFrom = ({ navigation, route }) => {
             desc?.['street']
           )}, ${JSON.stringify(desc?.['district'])}`
   }
-
+  const [origin, setOrigin] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
+  })
   onRegionChange = (region) => {
     this.setState({ region })
   }
@@ -121,7 +126,7 @@ const SelectFrom = ({ navigation, route }) => {
   const pressInfoOrder = () => {
     navigation.navigate({
       name: 'InfoOrder',
-      params: { paramKey3: text1, paramKey4: text2 },
+      params: { paramKey3: text1, paramKey4: text2, _setOrigin: origin },
       merge: true,
     })
   }
@@ -175,6 +180,10 @@ const SelectFrom = ({ navigation, route }) => {
             setStatus('2')
             setTitle(details)
             setDesc(details)
+            setOrigin({
+              latitude: details?.geometry.location.lat || 0,
+              longitude: details?.geometry.location.lng || 0,
+            })
             console.log(data, details)
             console.log(data.structured_formatting.main_text)
           }}

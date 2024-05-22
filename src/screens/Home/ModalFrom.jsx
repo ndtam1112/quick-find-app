@@ -44,6 +44,10 @@ const ModalFrom = ({ navigation }) => {
     latitudeDelta: 0.005,
     longitudeDelta: 0.005,
   }
+  const [origin, setOrigin] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
+  })
   const pressInfoOrder = () => {
     navigation.navigate('InfoOrder', { paramKey3: text1, paramKey4: text2 })
   }

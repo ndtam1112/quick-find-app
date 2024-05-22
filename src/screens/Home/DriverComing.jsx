@@ -21,11 +21,111 @@ import {
   View,
 } from 'react-native'
 
+const DriverComing = ({ navigation }) => {
+  const _map = useRef(1)
+  const [status, setStatus] = useState('1')
+  const [title, setTitle] = useState()
+  const [desc, setDesc] = useState()
+  const [currentLocation, setCurrentLocation] = useState(null)
+  const [location, setLocation] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [initialRegion, setInitialRegion] = useState(null)
+
+  const [modalVisible, setModalVisible] = useState(false)
+  const pressComplete = () => {
+    navigation.navigate('Complete')
+  }
+  const pressHanderBack = () => {
+    navigation.goBack()
+  }
+  useEffect(() => {
+    const getLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied')
+        return
+      }
+
+      let location = await Location.getCurrentPositionAsync({})
+      setCurrentLocation(location)
+      setLocation(location)
+      console.log('LocationCoord:')
+      console.log(location)
+
+      setInitialRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      })
+
+      let reverseGeocodeAddress = await Location.reverseGeocodeAsync({
+        longitude: location.coords.longitude,
+        latitude: location.coords.latitude,
+      })
+      setTitle(reverseGeocodeAddress[0])
+      setDesc(reverseGeocodeAddress[0])
+      console.log('Reverse:')
+      console.log(reverseGeocodeAddress)
+    }
+
+    getLocation()
+  }, [])
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss()
+      }}
+    >
+      <View style={styles.container}>
+        <TouchableOpacity onPress={pressHanderBack}>
+          <Entypo name="chevron-thin-left" style={styles.iconbtnn} />
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: 'bold',
+            lineHeight: 24,
+          }}
+        >
+          Tài xế đang đến
+        </Text>
+        <MapView
+          ref={_map}
+          showsUserLocation
+          showsMyLocationButton
+          followUserLocation
+          rotateEnabled={true}
+          zoomEnabled={true}
+          toolbarEnabled={true}
+          // provider={PROVIDER_GOOGLE}
+          style={styles.bximg}
+          initialRegion={initialRegion}
+          loadingEnabled
+        >
+          {currentLocation && (
+            <Marker
+              coordinate={{
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude,
+              }}
+              draggable
+              // onDragEnd={handleMarkerDragEnd}
+              onDragEnd={handleMarkerDragEnd}
+            />
+          )}
+        </MapView>
+      </View>
+    </TouchableWithoutFeedback>
+  )
+}
+
+export default DriverComing
+
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
-    display: 'flex',
-    height: '100%',
+    flex: 1,
   },
   iconbtn: {
     position: 'absolute',
@@ -136,145 +236,3 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 })
-
-const DriverComing = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false)
-  const pressComplete = () => {
-    navigation.navigate('Complete')
-  }
-  const pressHanderBack = () => {
-    navigation.goBack()
-  }
-  return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss()
-      }}
-    >
-      <Flex style={styles.container}>
-        <Flex style={styles.bximg}>
-          <Image style={styles.img} source={require('../../assets/map.png')} />
-        </Flex>
-        <TouchableOpacity onPress={pressHanderBack}>
-          <Entypo name="chevron-thin-left" style={styles.iconbtnn} />
-        </TouchableOpacity>
-        <Flex
-          style={{
-            position: 'absolute',
-            top: 70,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: 'bold',
-              lineHeight: 24,
-            }}
-          >
-            Tài xế đang đến
-          </Text>
-        </Flex>
-        <Flex
-          center
-          style={{
-            position: 'absolute',
-            top: 500,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <MaterialCommunityIcons name="cancel" size={40} color="red" />
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            <FontAwesome5
-              name="user-circle"
-              size={50}
-              style={{ marginLeft: 16 }}
-              color="black"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={pressComplete}>
-            <Entypo
-              name="chevron-thin-right"
-              style={{ fontSize: 24, marginLeft: 16 }}
-            />
-          </TouchableOpacity>
-        </Flex>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.')
-            setModalVisible(!modalVisible)
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Flex style={{ width: '100%' }}>
-                <Flex style={{ marginLeft: 16 }}>
-                  <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                    Họ và tên
-                  </Text>
-                  <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                    Nguyễn Văn A
-                  </Text>
-                </Flex>
-                <Flex style={{ marginLeft: 16, marginTop: 8 }}>
-                  <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.6)' }}>
-                    Số điện thoại
-                  </Text>
-                  <Text style={{ fontWeight: 'bold', lineHeight: 24 }}>
-                    0987654321
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginTop: 32,
-                  marginBottom: 32,
-                  gap: 24,
-                }}
-              >
-                <TouchableOpacity>
-                  <Ionicons
-                    name="ios-call"
-                    style={styles.iconbtn}
-                    size={24}
-                    color="black"
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Ionicons
-                    name="chatbubble"
-                    style={styles.iconbtn}
-                    size={24}
-                    color="black"
-                  />
-                </TouchableOpacity>
-              </Flex>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Đóng</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </Flex>
-    </TouchableWithoutFeedback>
-  )
-}
-
-export default DriverComing

@@ -33,6 +33,12 @@ const ModalTo = ({ navigation }) => {
     longitude: -122.4194,
   })
 
+  // const [origin, setOrigin] = useState()
+  const [destination, setDestination] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
+  })
+
   // const [pin, setPin] = useState({
   //   latitude: currentLocation.latitude,
   //   longitude: currentLocation.longitude,
@@ -111,7 +117,11 @@ const ModalTo = ({ navigation }) => {
   }
 
   const pressInfoOrder = () => {
-    navigation.navigate('InfoOrder', { paramKey1: text1, paramKey2: text2 })
+    navigation.navigate('InfoOrder', {
+      paramKey1: text1,
+      paramKey2: text2,
+      _setDestination: destination,
+    })
   }
 
   const pressHanderBack = () => {
@@ -163,8 +173,13 @@ const ModalTo = ({ navigation }) => {
             setStatus('2')
             setTitle(details)
             setDesc(details)
-            console.log(data, details)
-            console.log(data.structured_formatting.main_text)
+            setDestination({
+              latitude: details?.geometry.location.lat || 0,
+              longitude: details?.geometry.location.lng || 0,
+            })
+
+            // console.log(data, details)
+            // console.log(data.structured_formatting.main_text)
           }}
           fetchDetails
           query={{
