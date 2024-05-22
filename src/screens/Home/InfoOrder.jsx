@@ -258,7 +258,7 @@ const InfoOrder = ({ navigation, route }) => {
               />
               <Text>Chi tiết thanh toán</Text>
             </Flex>
-            <Flex style={{ marginTop: 16 }}>
+            {/* <Flex style={{ marginTop: 16 }}>
               <Flex
                 style={{
                   display: 'flex',
@@ -282,7 +282,7 @@ const InfoOrder = ({ navigation, route }) => {
                 <Text style={styles.textdetail}>Voucher giảm giá</Text>
                 <Text style={styles.textdetail}>đ0</Text>
               </Flex>
-            </Flex>
+            </Flex> */}
             <Flex
               style={{
                 display: 'flex',
@@ -301,7 +301,9 @@ const InfoOrder = ({ navigation, route }) => {
             </Flex>
           </Flex>
           <ButtonComponent
+            styles={{ marginTop: 16 }}
             type="primary"
+            color="#00629D"
             onPress={pressSearchDriver}
             text="Đặt xe"
           />

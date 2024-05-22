@@ -99,11 +99,11 @@ const SelectTo = ({ navigation, route }) => {
       'https://maps.googleapis.com/maps/api/place/textsearch/json'
     const input = searchText.trim()
     const locations = `${currentLocation.coords.latitude},${currentLocation.coords.longitude}&radius=2000`
-    const url = `${googleApisUrl}?query=${input}&location=${locations}&key=AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA`
+    const url = `${googleApisUrl}?query=${input}&location=${locations}&key=AIzaSyAnlbziCM0NNGdRdbXhLF9V1GUVULX0L5o`
     try {
       const resp = await fetch(url)
       const json = await resp.json()
-      console.log(json.results)
+      //console.log(json.results)
       if (json && json.results) {
         const coords = []
         for (const item of json.results) {
@@ -134,54 +134,18 @@ const SelectTo = ({ navigation, route }) => {
   // Di chuyển Marker, lấy được địa chỉ mới
   const handleMarkerDragEnd = async (e) => {
     setMarkerPosition(e.nativeEvent.coordinate)
-    const googleApisUrl =
-      'https://maps.googleapis.com/maps/api/place/textsearch/json'
-    const input = searchText.trim()
-    const locations = `${currentLocation.coords.latitude},${currentLocation.coords.longitude}&radius=2000`
-    const url = `${googleApisUrl}?query=${input}&location=${locations}&key=AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA`
+
     try {
-      const resp = await fetch(url)
-      const json = await resp.json()
-      console.log(json.results)
-      if (json && json.results) {
-        const coords = []
-        for (const item of json.results) {
-          //console.log(item.geometry)
-          coords.push({
-            latitude: item.geometry.location.lat,
-            longitude: item.geometry.location.lng,
-          })
-        }
-        setTitle(json.formatted_address)
-        setDesc(address[0])
-        setResults(json.results)
-        if (coords.length) {
-          _map.current?.fitToCoordinates(coords, {
-            edgePadding: {
-              top: 50,
-              right: 50,
-              bottom: 50,
-              left: 50,
-            },
-            animated: true,
-          })
-          Keyboard.dismiss()
-        }
-      }
+      const address = await Location.reverseGeocodeAsync({
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      })
+      setTitle(address[0])
+      setDesc(address[0])
+      console.log('Address:', address)
     } catch (error) {
-      console.log(error)
+      console.error('Error fetching address:', error)
     }
-    // try {
-    //   const address = await Location.reverseGeocodeAsync({
-    //     latitude: e.nativeEvent.coordinate.latitude,
-    //     longitude: e.nativeEvent.coordinate.longitude,
-    //   })
-    //   setTitle(address[0])
-    //   setDesc(address[0])
-    //   console.log('Address:', address)
-    // } catch (error) {
-    //   console.error('Error fetching address:', error)
-    // }
   }
 
   // Chọn Marker, lấy được địa chỉ mới
@@ -194,6 +158,7 @@ const SelectTo = ({ navigation, route }) => {
         3
       )}`
     )
+
     // You can update your state or perform any other actions here
     setSelectedMarker(marker)
   }
@@ -244,6 +209,7 @@ const SelectTo = ({ navigation, route }) => {
                   draggable
                   isPreselected={true}
                   onDragEnd={handleMarkerDragEnd}
+                  // onSelect={handleMarkerDragEnd}
                   onSelect={handleMarkerDragEnd}
                 />
               )

@@ -28,71 +28,6 @@ import { appColors } from '../../constants/appColors'
 import * as Location from 'expo-location'
 import { AddressModel } from '../../models/AddressModel'
 import { Notification } from 'iconsax-react-native'
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#00629D',
-    paddingTop: 50,
-    height: '30%',
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 62,
-    paddingHorizontal: 24,
-  },
-  main_header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  img: {
-    width: 40,
-    height: 40,
-    marginLeft: -24,
-  },
-  imgbtn: {
-    width: 40,
-    height: 40,
-  },
-  text: {
-    color: '#fff',
-  },
-  txinput: {
-    color: '#111',
-    borderBottomColor: '#485563',
-    marginTop: 0,
-    borderColor: '#fff',
-    flex: 1,
-  },
-  content: {
-    flex: 2,
-    display: 'flex',
-    width: '100%',
-    paddingLeft: 24,
-  },
-  h2: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 16,
-    marginBottom: 16,
-    width: '80%',
-    letterSpacing: 0.9,
-  },
-  btnimg: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50,
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#111',
-    borderRadius: '50%',
-  },
-})
 
 const Home = ({ navigation }) => {
   const [title, setTitle] = useState()
@@ -159,7 +94,7 @@ const Home = ({ navigation }) => {
       <View
         style={{
           backgroundColor: '#00629D',
-          height: 178 + (Platform.OS === 'ios' ? 16 : 0),
+          height: 200 + (Platform.OS === 'ios' ? 16 : 0),
           borderBottomLeftRadius: 40,
           borderBottomRightRadius: 40,
           paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 52,
@@ -193,7 +128,7 @@ const Home = ({ navigation }) => {
               />
             </View>
 
-            <CircleComponent color="#524CE0" size={36}>
+            {/* <CircleComponent color="#524CE0" size={36}>
               <View>
                 <Notification size={18} color={appColors.white} />
                 <View
@@ -210,24 +145,24 @@ const Home = ({ navigation }) => {
                   }}
                 />
               </View>
-            </CircleComponent>
+            </CircleComponent> */}
           </RowComponent>
-          <View>
-            <View style={styles.content}>
-              <Text style={styles.h2}>Dịch vụ</Text>
-              <TouchableOpacity onPress={pressBookCar}>
-                <Flex>
-                  <Flex style={styles.btnimg}>
-                    <Image
-                      source={require('../../assets/ambulance.png')}
-                      style={styles.imgbtn}
-                    />
-                  </Flex>
-                  <Text style={{ marginTop: 4 }}>Đặt xe</Text>
-                </Flex>
-              </TouchableOpacity>
-            </View>
-          </View>
+        </View>
+      </View>
+      <View>
+        <View style={styles.content}>
+          <Text style={styles.h2}>Dịch vụ</Text>
+          <TouchableOpacity onPress={pressBookCar}>
+            <Flex>
+              <Flex style={styles.btnimg}>
+                <Image
+                  source={require('../../assets/ambulance.png')}
+                  style={styles.imgbtn}
+                />
+              </Flex>
+              <Text style={{ marginTop: 4, color: '#111' }}>Đặt xe</Text>
+            </Flex>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -245,7 +180,7 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
         </RowComponent>
       </View> */}
-      <GooglePlacesAutocomplete
+      {/* <GooglePlacesAutocomplete
         // style={styles.txinput}
         // leading={(props) => <EvilIcons name="search" size={24} color="black" />}
         // cursorColor={'#485563'}
@@ -258,11 +193,11 @@ const Home = ({ navigation }) => {
         }}
         fetchDetails
         query={{
-          key: 'AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA',
+          key: 'AIzaSyAnlbziCM0NNGdRdbXhLF9V1GUVULX0L5o',
           language: 'en',
         }}
         onFail={(error) => console.log(error)}
-      />
+      /> */}
     </View>
     // <TouchableWithoutFeedback
     //   onPress={() => {
@@ -330,3 +265,66 @@ const Home = ({ navigation }) => {
 }
 
 export default Home
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#00629D',
+    paddingTop: 50,
+    height: '40%',
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 62,
+    paddingHorizontal: 24,
+  },
+  main_header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  img: {
+    width: 40,
+    height: 40,
+    marginLeft: -24,
+  },
+  imgbtn: {
+    width: 40,
+    height: 40,
+  },
+  text: {},
+  txinput: {
+    color: '#111',
+    borderBottomColor: '#485563',
+    marginTop: 0,
+    borderColor: '#fff',
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    display: 'flex',
+    width: '100%',
+    paddingLeft: 24,
+  },
+  h2: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 16,
+    marginBottom: 16,
+    width: '80%',
+    letterSpacing: 0.9,
+  },
+  btnimg: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#111',
+    borderRadius: '50%',
+  },
+})

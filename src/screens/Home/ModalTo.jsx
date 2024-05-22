@@ -168,7 +168,7 @@ const ModalTo = ({ navigation }) => {
           }}
           fetchDetails
           query={{
-            key: 'AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA',
+            key: 'AIzaSyAnlbziCM0NNGdRdbXhLF9V1GUVULX0L5o',
             language: 'vi',
           }}
           onFail={(error) => console.log(error)}

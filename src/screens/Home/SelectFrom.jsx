@@ -180,7 +180,7 @@ const SelectFrom = ({ navigation, route }) => {
           }}
           fetchDetails
           query={{
-            key: 'AIzaSyBervF7lMxlDabnAgWFWL0XbFsJrHGdFGA',
+            key: 'AIzaSyAnlbziCM0NNGdRdbXhLF9V1GUVULX0L5o',
             language: 'vi',
             components: 'country:vn',
             currentLocation: true,

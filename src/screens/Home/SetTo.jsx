@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import {
   Entypo,
   EvilIcons,
@@ -255,6 +249,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: 24,
     paddingRight: 24,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
   },
   main_header: {
     display: 'flex',
